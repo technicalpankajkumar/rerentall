@@ -17,23 +17,6 @@ module.exports = function (api) {
           allowUndefined: true,
         },
       ],
-      [
-        'module-resolver',
-        {
-          alias: {
-            '@': './',
-            '@components': './components',
-            '@lib': './lib',
-            '@api': './api',
-            '@app': './app',
-            '@assets': './assets',
-            '@ios': './ios',
-            '@android': './android',
-            '@services': './services',
-            '@store': './store',
-          },
-        },
-      ],
     ],
   };
 };
