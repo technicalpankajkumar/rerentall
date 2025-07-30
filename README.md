@@ -1,6 +1,6 @@
-# Welcome to Re-Rent-Al app 👋
+# Welcome to React Native app Template👋
 
-## Getting Started Setup
+## Getting Started Setup with given libararies.
 
 ```
 1. Redux & RTKQuery.  //npx expo install react-redux and npm i @reduxjs/toolkit for state management and api call. -
@@ -20,3 +20,9 @@
 15. npx expo install react-native-svg lucide-react-native  // icons for use.
 ```
 
+### Note
+#### Add more component follow this library to add another reusable components.
+```
+https://rn-primitives.vercel.app/
+
+```
