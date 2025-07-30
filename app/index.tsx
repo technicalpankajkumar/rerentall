@@ -1,24 +1,48 @@
-import { selectCurrentUser } from '@/store/feature/auth/slice';
-import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
+import { selectCurrentUser, setCredentials } from '@/store/feature/auth/slice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { usePathname, useRouter } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
+import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Home() {
+export default function Index() {
   const user = useSelector(selectCurrentUser);
   const router = useRouter();
+  const pathname = usePathname(); // ensures layout is mounted
+  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(true); // delay render until load done
 
   useEffect(() => {
-    if (!user) {
-      router.replace('/login');
-    }
-  }, [user]);
+    const loadSession = async () => {
+      try {
+        const token = await SecureStore.getItemAsync('accessToken');
+        const userStr = await AsyncStorage.getItem('user');
+        if (token && userStr) {
+          const user = JSON.parse(userStr);
+          dispatch(setCredentials({ session: { access_token: token }, user }));
+        }
+      } catch (error) {
+        console.log('Session load error:', error);
+      } finally {
+        setLoading(false); // done loading
+      }
+    };
+    loadSession();
+  }, [dispatch]);
 
-  if (!user) return null;
+  useEffect(() => {
+    if (!loading && !user && pathname === '/') {
+      router.replace('/(auth)/LoginScreen');
+    }
+  }, [user, loading]);
+
+  if (loading || !user) return null;
 
   return (
     <View style={{ padding: 20 }}>
-      <Text>Welcome, {user.email}!</Text>
+      <Text>Welcome, {user?.email || 'User'}!</Text>
     </View>
   );
 }
