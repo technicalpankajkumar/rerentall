@@ -2,6 +2,6 @@ import { View } from "react-native"
 
 
 const Profiles=()=>{
-    return (<View></View>)
+    return (<View>Profiles</View>)
 }
 export default Profiles
