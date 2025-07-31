@@ -21,9 +21,9 @@ const SafeAreaWithGradientBg: FC<SafeAreaWithGradientBgProps> = ({
     return (
         <LinearGradient
             colors={colors}
-            className={cn("flex-1 px-4", center && 'justify-center')}
+            className={cn("flex-1", center && 'justify-center')}
         >
-            <SafeAreaView>
+            <SafeAreaView className="flex-1">
                 {
                     children
                 }
