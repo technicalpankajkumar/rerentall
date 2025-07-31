@@ -1,13 +1,15 @@
 // app/(auth)/login.tsx
 import { useLoginMutation } from '@/api';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import SafeAreaWithGradientBg from '@/components/utility/SafeAreaWithGradientBg';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'expo-router';
 import { useFormik } from 'formik';
 import { Apple, Eye, EyeOff } from 'lucide-react-native';
 import React, { useState } from 'react';
-import { Button, Image, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { Image, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import * as Yup from 'yup';
-
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,8 +40,8 @@ export default function LoginScreen() {
   };
 
   return (
-       <View className="flex-1 justify-center items-center bg-white px-4">
-      <View className={cn("w-full max-w-md", isTabletOrWeb && 'scale-125')}>        
+    <SafeAreaWithGradientBg center={true}>
+      <View className={cn("w-full max-w-md justify-center", isTabletOrWeb && 'scale-125')}>
         <Text className="text-2xl font-bold text-center mb-4">Get Started With your Fitness Journey</Text>
         <Text className="text-center text-gray-500 mb-6">Sign in to your Account</Text>
 
@@ -53,9 +55,10 @@ export default function LoginScreen() {
         </View>
 
         <View className="mb-4">
-          <TextInput
+          <Input
+
             placeholder="Email"
-            className="border border-gray-300 rounded-full px-4 py-3"
+            className="border border-gray-300 rounded-full px-4"
             onChangeText={formik.handleChange('email')}
             onBlur={formik.handleBlur('email')}
             value={formik.values.email}
@@ -66,7 +69,7 @@ export default function LoginScreen() {
         </View>
 
         <View className="mb-4 relative">
-          <TextInput
+          <Input
             placeholder="Password"
             secureTextEntry={!showPassword}
             className="border border-gray-300 rounded-full px-4 py-3 pr-10"
@@ -76,9 +79,9 @@ export default function LoginScreen() {
           />
           <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-3"
+            className="absolute right-4 top-4"
           >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
           </TouchableOpacity>
           {formik.touched.password && formik.errors.password && (
             <Text className="text-red-500 text-xs mt-1">{formik.errors.password}</Text>
@@ -89,9 +92,9 @@ export default function LoginScreen() {
           <Text className="text-blue-600 text-sm">Forgot Password?</Text>
         </TouchableOpacity>
 
-        <Button onPress={formik.handleSubmit} className="bg-blue-500 rounded-full py-3" title='Login' />
-          {/* <Text className="text-white text-center">Login</Text> */}
-        {/* </Button> */}
+        <Button onPress={formik.handleSubmit} className="bg-blue-500 rounded-full py-3 mb-4">
+          <Text className="text-white text-center">Login</Text>
+        </Button>
 
         <Text className="text-center my-4 text-gray-500">or continue with</Text>
 
@@ -107,9 +110,9 @@ export default function LoginScreen() {
         </View>
 
         <TouchableOpacity className="mt-6">
-          <Text className="text-center text-sm">Don’t have an account? <Text className="text-blue-500">Sign Up</Text></Text>
+          <Text className="text-center text-sm">Don’t have an account? <Text className="text-blue-500" onPress={() => router.push('/(auth)/registerScreen')}>Sign Up</Text></Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaWithGradientBg>
   );
 }

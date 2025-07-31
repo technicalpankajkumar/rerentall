@@ -17,7 +17,8 @@
 12. expo-secure-store  // npx expo install expo-secure-store  for secure store. -
 13. @react-native-async-storage/async-storage  // npm install @react-native-async-storage/async-storage for other store value. -
 14. dotenv // npm install dotenv for environment. -
-15. npx expo install react-native-svg lucide-react-native  // icons for use.
+15. npx expo install react-native-svg lucide-react-native  // icons for use. -
+16. npx expo install expo-linear-gradient // for linear gradient color use. -
 ```
 
 ### Note
