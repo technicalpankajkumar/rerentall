@@ -130,7 +130,7 @@ export default function HomeScreen() {
     </Animated.View>
   );
 
-  if (true) return <PropertySkeleton />;
+  if (isLoading) return <PropertySkeleton />;
 
   return (
     <View style={{ flex: 1 }}>

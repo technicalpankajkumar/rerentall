@@ -1,11 +1,11 @@
 import React from 'react';
 import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
 import Animated, {
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue,
-    withRepeat,
-    withTiming,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
 } from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get('window');
@@ -35,7 +35,7 @@ export function PropertyDetailSkeleton() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="absolute top-[60px] left-0 right-0 z-10 px-5 flex-row justify-between items-center">
           <SkeletonBox style={{ width: 40, height: 40, borderRadius: 20 }} />
-          <View className="flex-row space-x-3">
+          <View className="flex-row space-x-3 gap-2">
             <SkeletonBox style={{ width: 40, height: 40, borderRadius: 20 }} />
             <SkeletonBox style={{ width: 40, height: 40, borderRadius: 20 }} />
           </View>
@@ -52,35 +52,35 @@ export function PropertyDetailSkeleton() {
         <View className="bg-white -mt-6 pt-6 px-5 pb-24 rounded-t-3xl">
           <View className="flex-row justify-between items-center mb-3">
             <SkeletonBox style={{ width: 50, height: 14 }} />
-            <SkeletonBox style={{ width: 120, height: 20 }} />
+            <SkeletonBox style={{ width: 120, height: 16 }} />
           </View>
 
-          <SkeletonBox style={{ width: '80%', height: 24, marginBottom: 8 }} />
-          <SkeletonBox style={{ width: '70%', height: 16, marginBottom: 20 }} />
+          <SkeletonBox style={{ width: '80%', height: 16, marginBottom: 8 }} />
+          <SkeletonBox style={{ width: '70%', height: 14, marginBottom: 20 }} />
 
-          <View className="flex-row justify-around py-4 border-y border-gray-100 mb-6">
+          <View className="flex-row justify-around py-3 border-y border-gray-100 mb-4">
             <SkeletonBox style={{ width: 60, height: 16 }} />
             <SkeletonBox style={{ width: 60, height: 16 }} />
             <SkeletonBox style={{ width: 60, height: 16 }} />
           </View>
 
-          <View className="mb-6">
-            <SkeletonBox style={{ width: 120, height: 18, marginBottom: 12 }} />
-            <SkeletonBox style={{ width: '100%', height: 16, marginBottom: 8 }} />
-            <SkeletonBox style={{ width: '90%', height: 16, marginBottom: 8 }} />
-            <SkeletonBox style={{ width: '70%', height: 16 }} />
+          <View className="mb-4">
+            <SkeletonBox style={{ width: 120, height: 14, marginBottom: 12 }} />
+            <SkeletonBox style={{ width: '100%', height: 10, marginBottom: 8 }} />
+            <SkeletonBox style={{ width: '90%', height: 10, marginBottom: 8 }} />
+            <SkeletonBox style={{ width: '70%', height: 10 }} />
           </View>
 
-          <View className="mb-6">
-            <SkeletonBox style={{ width: 120, height: 18, marginBottom: 12 }} />
+          <View className="mb-4">
+            <SkeletonBox style={{ width: 120, height: 14, marginBottom: 12 }} />
             <View className="flex-row flex-wrap gap-3">
               {Array.from({ length: 6 }).map((_, index) => (
-                <SkeletonBox key={index} style={{ width: 80, height: 32, borderRadius: 16 }} />
+                <SkeletonBox key={index} style={{ width: 80, height: 24, borderRadius: 16 }} />
               ))}
             </View>
           </View>
 
-          <View className="mb-6">
+          <View className="mb-4">
             <SkeletonBox style={{ width: 120, height: 18, marginBottom: 12 }} />
             <View className="flex-row items-center bg-gray-50 p-4 rounded-xl">
               <SkeletonBox style={{ width: 48, height: 48, borderRadius: 24 }} />
@@ -88,7 +88,7 @@ export function PropertyDetailSkeleton() {
                 <SkeletonBox style={{ width: 120, height: 16, marginBottom: 4 }} />
                 <SkeletonBox style={{ width: 100, height: 14 }} />
               </View>
-              <View className="flex-row space-x-2">
+              <View className="flex-row space-x-2 gap-2">
                 <SkeletonBox style={{ width: 40, height: 40, borderRadius: 20 }} />
                 <SkeletonBox style={{ width: 40, height: 40, borderRadius: 20 }} />
               </View>
