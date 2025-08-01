@@ -1,3 +1,4 @@
+import { ToggleTheme } from '@/components/ThemeToggle';
 import { CategorySelector } from '@/components/utility/CategorySelector';
 import { PropertyCard } from '@/components/utility/PropertyCard';
 import { PropertySkeleton } from '@/components/utility/PropertySkeleton';
@@ -145,10 +146,13 @@ export default function HomeScreen() {
               <ChevronDown color="#9CA3AF" size={16} />
             </TouchableOpacity>
           </View>
+          <View className='flex'>
+            <ToggleTheme/>
           <TouchableOpacity className="relative p-2">
             <Bell color="#374151" size={24} />
             <View className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
           </TouchableOpacity>
+          </View>
         </Animated.View>
 
         {/* Search Bar */}
