@@ -158,7 +158,7 @@ export default function RentalListingScreen() {
   };
 
   return (
-    <SafeAreaWithGradientBg center={false}>
+    <SafeAreaWithGradientBg >
       {/* Header */}
       <View
         className={`bg-white px-${isTablet ? "6" : "4"} py-4 border-b border-gray-100`}
