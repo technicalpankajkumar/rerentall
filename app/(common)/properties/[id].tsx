@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 import { DescriptionSection } from '@/components/utility/Description';
 import { ImageCarousel } from '@/components/utility/ImageCarousel';
 import { PropertyDetailSkeleton } from '@/components/utility/ProperyDetailSkeleton';
-import SafeAreaWithGradientBg from '@/components/utility/SafeAreaWithGradientBg';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
   ArrowLeft,
@@ -94,7 +93,7 @@ export default function PropertyDetailScreen() {
   if (isLoading || !property) return <PropertyDetailSkeleton />;
 
   return (
-    <SafeAreaWithGradientBg>
+    <>
       <View className='flex-1'>
         {/* Header */}
         <View className="absolute top-4 left-0 right-0 flex-row justify-between items-center px-5 z-10">
@@ -213,6 +212,19 @@ export default function PropertyDetailScreen() {
               </View>
             </View>
           </View>
+          {/* Location */}
+          <View className="mb-4">
+            <Text className="text-lg font-bold text-gray-900 mb-2">
+              Location
+            </Text>
+
+            <View className="bg-gray-100 rounded-2xl h-52 items-center justify-center" style={{elevation:1}}>
+              <Text className="text-gray-500">Map View</Text>
+              <Text className="text-gray-400 text-sm mt-1">
+                Interactive map would be here
+              </Text>
+            </View>
+          </View>
         </ScrollView>
       </View>
       {/* Book Now Button */}
@@ -224,6 +236,6 @@ export default function PropertyDetailScreen() {
           <Text className="text-white text-lg font-bold">Book Now</Text>
         </Button>
       </Animated.View>
-    </SafeAreaWithGradientBg>
+    </>
   );
 }

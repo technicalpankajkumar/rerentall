@@ -4,7 +4,7 @@ import { PropertySkeleton } from '@/components/utility/PropertySkeleton';
 import { SearchBar } from '@/components/utility/SearchBar';
 import * as Location from 'expo-location';
 import { router } from 'expo-router';
-import { Bell, ChevronDown, MapPin } from 'lucide-react-native';
+import { ArrowLeft, Bell } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
   FlatList,
@@ -27,7 +27,7 @@ interface Property {
   isFavorite: boolean;
 }
 
-export default function HomeScreen() {
+export default function PropertyList() {
   const [location, setLocation] = useState('Lahore, Pakistan');
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -136,15 +136,13 @@ export default function HomeScreen() {
     <View style={{ flex: 1 }}>
       <>
         {/* Header */}
-        <Animated.View entering={FadeInUp} className="flex-row justify-between items-end px-5 py-2 mb-2">
-          <View className="flex-1">
-            <Text className="text-sm text-gray-400 font-medium mb-1 ms-1">Location</Text>
-            <TouchableOpacity className="flex-row items-center justify-start">
-              <MapPin color="#3B82F6" size={16} />
-              <Text className="text-base font-semibold text-gray-800 mx-1">{location}</Text>
-              <ChevronDown color="#9CA3AF" size={16} />
-            </TouchableOpacity>
-          </View>
+        <Animated.View entering={FadeInUp} className="flex-row justify-between items-end px-5 py-2">
+            <TouchableOpacity
+            className="w-10 h-10 rounded-full bg-white/90 justify-center items-center"
+            onPress={() => router.back()}
+          >
+            <ArrowLeft color="#1F2937" size={24} strokeWidth={2} />
+          </TouchableOpacity>
           <TouchableOpacity className="relative p-2">
             <Bell color="#374151" size={24} />
             <View className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
@@ -159,31 +157,13 @@ export default function HomeScreen() {
         <Animated.View entering={FadeInDown.delay(200)} className="px-5 mt-4">
           <CategorySelector selectedCategory={selectedCategory} onCategorySelect={setSelectedCategory} />
         </Animated.View>
-        {/* Recommended Properties */}
-        <Animated.View entering={FadeInDown.delay(300)} className="mt-4">
-          <View className="flex-row justify-between items-center px-5 mb-3">
-            <Text className="text-lg font-bold text-gray-800">Recommended Property</Text>
-            <TouchableOpacity>
-              <Text className="text-sm font-semibold text-blue-500">See all</Text>
-            </TouchableOpacity>
-          </View>
-          <FlatList
-            data={properties}
-            renderItem={renderRecommendedProperty}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 20 }}
-          />
-        </Animated.View>
-
         {/* Nearby Properties */}
         <Animated.View entering={FadeInDown.delay(400)} className="mt-4 flex-1">
           <View className="flex-row justify-between items-center px-4 mb-4">
             <Text className="text-lg font-bold text-gray-800">Nearby Property</Text>
-            <TouchableOpacity onPress={()=>router.push("/(common)/properties/property-list")}>
+            {/* <TouchableOpacity>
               <Text className="text-sm font-semibold text-blue-500">See all</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <FlatList
             data={properties}

@@ -1,3 +1,4 @@
+import SafeAreaWithGradientBg from '@/components/utility/SafeAreaWithGradientBg';
 import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -50,9 +51,11 @@ export default function Layout() {
         <SafeAreaProvider>
             {/*  */}
             <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+            <SafeAreaWithGradientBg colors={['#fff',"#fff"]}>
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="index" />
             </Stack>
+            </SafeAreaWithGradientBg>
             {/*  */}
         </SafeAreaProvider>
       </ThemeProvider>

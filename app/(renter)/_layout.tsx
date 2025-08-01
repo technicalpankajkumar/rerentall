@@ -1,11 +1,9 @@
-import SafeAreaWithGradientBg from '@/components/utility/SafeAreaWithGradientBg';
 import { Tabs } from 'expo-router';
 import { House, LayoutDashboard, User } from 'lucide-react-native';
 import { StyleSheet } from 'react-native';
 
  const RentalLayout=()=> {
   return (
-    <SafeAreaWithGradientBg colors={['#fff',"#fff"]}>
     <Tabs
       screenOptions={{
         headerShown: false,
@@ -51,7 +49,6 @@ import { StyleSheet } from 'react-native';
         }}
       />
     </Tabs>
-    </SafeAreaWithGradientBg>
   );
 }
 

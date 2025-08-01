@@ -22,7 +22,7 @@ export function DescriptionSection({ text, limit = 200 }: DescriptionSectionProp
                 <Text className="text-base text-gray-500 leading-6">
                     {displayText}
                     {shouldTruncate && (
-                        <TouchableOpacity onPress={() => setExpanded(!expanded)}>
+                        <TouchableOpacity onPress={() => setExpanded(pre => !pre)}>
                             <Text className=" text-blue-500 font-semibold">
                                 {expanded ? ' Read Less' : ' Read More...'}
                             </Text>
