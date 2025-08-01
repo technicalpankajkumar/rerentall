@@ -14,7 +14,7 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
       <Image
         source={{ uri: item }}
         className="w-full h-full"
-        style={{ resizeMode: 'cover' }}
+        style={{ resizeMode: 'cover'}}
       />
     </View>
   );
@@ -24,7 +24,7 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
       <Carousel
         loop
         width={width}
-        height={height * 0.45}
+        height={height * 0.35}
         autoPlay={false}
         data={images}
         scrollAnimationDuration={300}

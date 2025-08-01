@@ -1,11 +1,11 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Animated, {
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue,
-    withRepeat,
-    withTiming,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
 } from 'react-native-reanimated';
 
 export function PropertySkeleton() {
@@ -29,13 +29,12 @@ export function PropertySkeleton() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View className="flex-row justify-between items-start px-5 pt-5 pb-4">
           <View className="flex-1">
-            <SkeletonBox className="w-15 h-3.5 mb-2" />
-            <SkeletonBox className="w-36 h-4.5" />
+            <SkeletonBox className="w-15 h-8 mb-2" />
+            <SkeletonBox className="w-36 h-8" />
           </View>
           <SkeletonBox className="w-6 h-6 rounded-full" />
         </View>
@@ -103,6 +102,5 @@ export function PropertySkeleton() {
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
   );
 }

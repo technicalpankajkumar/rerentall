@@ -7,10 +7,10 @@ import { router } from 'expo-router';
 import { Bell, ChevronDown, MapPin } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
-    FlatList,
-    Text,
-    TouchableOpacity,
-    View
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 
@@ -130,7 +130,7 @@ export default function HomeScreen() {
     </Animated.View>
   );
 
-  if (isLoading) return <PropertySkeleton />;
+  if (true) return <PropertySkeleton />;
 
   return (
     <View style={{ flex: 1 }}>
