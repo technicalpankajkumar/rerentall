@@ -28,7 +28,7 @@ interface Property {
 }
 
 export default function PropertyList() {
-  const [location, setLocation] = useState('Lahore, Pakistan');
+  const [location, setLocation] = useState('Lucknow, India');
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -109,6 +109,42 @@ export default function PropertyList() {
           type: 'Apartment',
           isFavorite: false,
         },
+        {
+          id: '5',
+          title: 'Shivans Singh Property',
+          price: 850,
+          location: 'Connecticut 35624',
+          beds: 2,
+          baths: 2,
+          sqft: 1950,
+          image: 'https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg',
+          type: 'Apartment',
+          isFavorite: false,
+        },
+         {
+          id: '6',
+          title: 'Bhola Gupta Property',
+          price: 1000,
+          location: '3517 W. Gray Rd. Utica, Pennsylvania 57867',
+          beds: 4,
+          baths: 3,
+          sqft: 3200,
+          image: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg',
+          type: 'House',
+          isFavorite: false,
+        },
+         {
+          id: '7',
+          title: 'Mike Neo Property',
+          price: 1900,
+          location: 'DHA, North Nazimabad, Bahria Town Lahore, Pakistan',
+          beds: 3,
+          baths: 2,
+          sqft: 2567,
+          image: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+          type: 'House',
+          isFavorite: false,
+        }
       ]);
       setIsLoading(false);
     }, 1500);
@@ -117,12 +153,6 @@ export default function PropertyList() {
   const handlePropertyPress = (property: Property) => {
     router.push(`/properties/${property.id}`);
   };
-
-  const renderRecommendedProperty = ({ item, index }: { item: Property; index: number }) => (
-    <Animated.View entering={FadeInDown.delay(index * 100)} className="mr-4">
-      <PropertyCard property={item} onPress={() => handlePropertyPress(item)} />
-    </Animated.View>
-  );
 
   const renderNearbyProperty = ({ item, index }: { item: Property; index: number }) => (
     <Animated.View entering={FadeInDown.delay(index * 150)} className="mb-3">
@@ -134,7 +164,6 @@ export default function PropertyList() {
 
   return (
     <View style={{ flex: 1 }}>
-      <>
         {/* Header */}
         <Animated.View entering={FadeInUp} className="flex-row justify-between items-end px-5 py-2">
             <TouchableOpacity
@@ -144,7 +173,7 @@ export default function PropertyList() {
             <ArrowLeft color="#1F2937" size={24} strokeWidth={2} />
           </TouchableOpacity>
           <TouchableOpacity className="relative p-2">
-            <Bell color="#374151" size={24} />
+            <Bell color="#374151"  size={24} />
             <View className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
           </TouchableOpacity>
         </Animated.View>
@@ -161,9 +190,6 @@ export default function PropertyList() {
         <Animated.View entering={FadeInDown.delay(400)} className="mt-4 flex-1">
           <View className="flex-row justify-between items-center px-4 mb-4">
             <Text className="text-lg font-bold text-gray-800">Nearby Property</Text>
-            {/* <TouchableOpacity>
-              <Text className="text-sm font-semibold text-blue-500">See all</Text>
-            </TouchableOpacity> */}
           </View>
           <FlatList
             data={properties}
@@ -175,7 +201,6 @@ export default function PropertyList() {
             style={{ flex: 1 }}
           />
         </Animated.View>
-      </>
     </View>
   );
 }
