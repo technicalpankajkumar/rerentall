@@ -12,8 +12,8 @@ interface SearchBarProps {
 export function SearchBar({ value, onChangeText, onFilterPress }: SearchBarProps) {
   const { heightPercent,moderateVerticalScale,moderateScale} = useResponsive()
   return (
-    <View className="flex-row px-5 space-x-3">
-      <View className="flex-1 flex-row items-center bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-800" style={{elevation:2,height:heightPercent(6),paddingVertical:moderateVerticalScale(2),paddingHorizontal:moderateScale(10)}}>
+    <View className="flex-row px-4 space-x-3">
+      <View className="flex-1 flex-row items-center bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-800" style={{elevation:2,height:heightPercent(6),paddingVertical:moderateVerticalScale(2),paddingStart:moderateScale(10),paddingEnd:moderateScale(5)}}>
         <Search color="#9CA3AF" size={20} strokeWidth={2} />
         <TextInput
           className="flex-1 text-gray-800 ml-3"

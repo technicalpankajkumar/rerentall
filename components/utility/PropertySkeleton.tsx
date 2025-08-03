@@ -66,7 +66,7 @@ export function PropertySkeleton() {
           contentContainerClassName="px-5 space-x-4 gap-4"
         >
           {Array.from({ length: 2 }).map((_, index) => (
-            <View key={index} className="bg-white rounded-2xl w-60 overflow-hidden">
+            <View key={index} className="bg-white dark:bg-background rounded-2xl w-60 overflow-hidden">
               <SkeletonBox className="w-full h-36" />
               <View className="py-2">
                 <SkeletonBox className="w-4/5 h-4 mb-2" />
@@ -90,7 +90,7 @@ export function PropertySkeleton() {
 
         {/* Nearby Properties */}
         {Array.from({ length: 3 }).map((_, index) => (
-          <View key={index} className="flex-row bg-white rounded-xl mx-5 mb-4 overflow-hidden">
+          <View key={index} className="flex-row bg-white dark:bg-background rounded-xl mx-5 mb-4 overflow-hidden">
             <SkeletonBox className="w-32 h-28" />
             <View className="flex-1 justify-between p-3">
               <SkeletonBox className="w-4/5 h-3.5" />

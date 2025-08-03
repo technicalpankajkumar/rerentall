@@ -1,3 +1,4 @@
+import { useColorScheme } from "@/lib/useColorScheme";
 import { cn } from "@/lib/utils";
 import { LinearGradient } from "expo-linear-gradient";
 import { FC, ReactNode } from "react";
@@ -14,13 +15,13 @@ interface SafeAreaWithGradientBgProps {
 
 const SafeAreaWithGradientBg: FC<SafeAreaWithGradientBgProps> = ({
     children,
-    colors = ["#E0EAFC", "#CFDEF3"],
+    colors = ["#ffffff", "#ffffff"],
     center = false,
 }) => {
-
+     const {isDarkColorScheme} = useColorScheme()
     return (
         <LinearGradient
-            colors={colors}
+            colors={isDarkColorScheme ?  ["#000000", "#000000"] :colors}
             className={cn("flex-1", center && 'justify-center')}
         >
             <SafeAreaView className="flex-1">

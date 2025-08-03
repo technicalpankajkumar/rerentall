@@ -1,21 +1,32 @@
-import { Tabs } from 'expo-router';
-import { House, LayoutDashboard, User } from 'lucide-react-native';
-import { StyleSheet } from 'react-native';
+import { useColorScheme } from "@/lib/useColorScheme";
+import { Tabs } from "expo-router";
+import { House, Settings, User } from "lucide-react-native";
 
- const RentalLayout=()=> {
+const RentalLayout = () => {
+  const {isDarkColorScheme} = useColorScheme()
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#3B82F6',
-        tabBarInactiveTintColor: '#9CA3AF',
-        tabBarLabelStyle: styles.tabBarLabel,
-      }}>
+        tabBarStyle: {
+          backgroundColor: isDarkColorScheme ? '#000000'  :"#FFFFFF",
+          borderTopWidth: 1,
+          borderTopColor: "#E5E7EB",
+          paddingTop: 4,
+          height: 60,
+        },
+        tabBarActiveTintColor: "#3B82F6",
+        tabBarInactiveTintColor: isDarkColorScheme ? "#FFFFFF" : "#9CA3AF",
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "600",
+        },
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Home',
+          title: "Home",
           tabBarIcon: ({ color, size }) => (
             <House color={color} size={size} strokeWidth={2} />
           ),
@@ -24,7 +35,7 @@ import { StyleSheet } from 'react-native';
       <Tabs.Screen
         name="saved"
         options={{
-          title: 'Profile',
+          title: "Saved",
           tabBarIcon: ({ color, size }) => (
             <User color={color} size={size} strokeWidth={2} />
           ),
@@ -40,30 +51,16 @@ import { StyleSheet } from 'react-native';
         }}
       /> */}
       <Tabs.Screen
-        name="dashboard"
+        name="setting"
         options={{
-          title: 'Dashboard',
+          title: "Setting",
           tabBarIcon: ({ color, size }) => (
-            <LayoutDashboard color={color} size={size} strokeWidth={2} />
+            <Settings color={color} size={size} strokeWidth={2} />
           ),
         }}
       />
     </Tabs>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: '#FFFFFF',
-    borderTopWidth: 1,
-    borderTopColor: '#E5E7EB',
-    paddingTop: 4,
-    height: 60,
-  },
-  tabBarLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-});
-
-export default RentalLayout
+export default RentalLayout;

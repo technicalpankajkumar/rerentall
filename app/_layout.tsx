@@ -51,7 +51,7 @@ export default function Layout() {
         <SafeAreaProvider>
             {/*  */}
             <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-            <SafeAreaWithGradientBg colors={['#fff',"#fff"]}>
+            <SafeAreaWithGradientBg>
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="index" />
             </Stack>

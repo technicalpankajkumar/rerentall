@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { DescriptionSection } from '@/components/utility/Description';
 import { ImageCarousel } from '@/components/utility/ImageCarousel';
 import { PropertyDetailSkeleton } from '@/components/utility/ProperyDetailSkeleton';
+import { useResponsive } from '@/hooks/useResponsive';
+import { useColorScheme } from '@/lib/useColorScheme';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
   ArrowLeft,
@@ -20,7 +23,6 @@ import {
   Dimensions,
   Image,
   ScrollView,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native';
@@ -30,6 +32,8 @@ const { height } = Dimensions.get('window');
 
 export default function PropertyDetailScreen() {
   const { id } = useLocalSearchParams();
+  const {isDarkColorScheme} = useColorScheme();
+  const {heightPercent,widthPercent,moderateScale,moderateVerticalScale} = useResponsive()
   const [property, setProperty] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -98,22 +102,22 @@ export default function PropertyDetailScreen() {
         {/* Header */}
         <View className="absolute top-4 left-0 right-0 flex-row justify-between items-center px-5 z-10">
           <TouchableOpacity
-            className="w-10 h-10 rounded-full bg-white/90 justify-center items-center" style={{elevation:1}}
+            className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 justify-center items-center" style={{elevation:1}}
             onPress={() => router.back()}
           >
-            <ArrowLeft color="#1F2937" size={24} strokeWidth={2} />
+            <ArrowLeft color={isDarkColorScheme? "#FFFFFF" :"#1F2937"} size={24} strokeWidth={2} />
           </TouchableOpacity>
           <View className="flex-row space-x-3 gap-4">
-            <TouchableOpacity className="w-10 h-10 rounded-full bg-white/90 justify-center items-center" style={{elevation:1}}>
-              <Share color="#1F2937" size={24} strokeWidth={2} />
+            <TouchableOpacity className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 justify-center items-center" style={{elevation:1}}>
+              <Share color={isDarkColorScheme? "#FFFFFF" :"#1F2937"} size={24} strokeWidth={2} />
             </TouchableOpacity>
             <TouchableOpacity
-              className="w-10 h-10 rounded-full bg-white/90 justify-center items-center" 
+              className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 justify-center items-center" 
               style={{elevation:1}}
               onPress={handleFavoritePress}
             >
               <Heart
-                color={isFavorite ? '#EF4444' : '#1F2937'}
+                color={isFavorite ? isDarkColorScheme ? '#EF4444' : '#FFFFFF' : isDarkColorScheme ? '#FFFFFF' :'#1F2937'}
                 fill={isFavorite ? '#EF4444' : 'none'}
                 size={24}
                 strokeWidth={2}
@@ -132,39 +136,39 @@ export default function PropertyDetailScreen() {
         {/* Static Details */}
         <Animated.View
           entering={FadeInDown.delay(200)}
-          className="bg-white rounded-t-3xl mt-[-24px] pt-4 px-6"
+          className="bg-white dark:bg-background rounded-t-3xl mt-[-24px] pt-4 px-6"
         >
           <View className="flex-row justify-between items-center mb-3">
-            <Text className="bg-blue-200 px-4 py-1 rounded-full" style={{elevation:1}}>{property.type}</Text>
-            <Text className="text-xl font-bold text-gray-900">${property.price}/Month</Text>
+            <Text className="bg-secondary dark:bg-secondary px-4 py-2 rounded-full font-medium" size='sm' style={{elevation:1}}>{property.type}</Text>
+            <Text className="font-bold" size='lg'>${property.price}/Month</Text>
           </View>
-          <Text className="text-xl font-bold text-gray-900 mb-1">{property.title}</Text>
+          <Text className="font-bold mb-1" size='md'>{property.title}</Text>
           <View className="flex-row items-center mb-1">
             <View className="flex-row items-center mr-4">
               <Star size={16} color="#F59E0B" fill="#F59E0B" />
-              <Text className="text-gray-900 font-semibold ml-1">4.8</Text>
-              <Text className="text-gray-500 ml-1">(73 Reviews)</Text>
+              <Text className="font-semibold ml-1" size='sm'>4.8</Text>
+              <Text className=" ml-1" size='sm'>(73 Reviews)</Text>
             </View>
           </View>
 
           <View className="flex-row items-center mb-3">
-            <MapPin size={16} color="#6B7280" />
-            <Text className="text-gray-600 ml-1">
+            <MapPin size={16} color={isDarkColorScheme ?"#6B7280" : "#3B82F6"} />
+            <Text className=" ml-1" size='sm'>
               {property.location}
             </Text>
           </View>
-          <View className="flex-row py-4 border-y border-gray-100 mb-4">
+          <View className="flex-row py-4 border-y border-border dark:border-border mb-4">
             <View className="flex-1 flex-row items-center justify-center">
               <Bed color="#6B7280" size={20} strokeWidth={2} />
-              <Text className="text-base font-semibold text-gray-700 ml-2">{property.beds} Bed</Text>
+              <Text className="font-semibold ml-2" size='sm'>{property.beds} Bed</Text>
             </View>
             <View className="flex-1 flex-row items-center justify-center">
               <Bath color="#6B7280" size={20} strokeWidth={2} />
-              <Text className="text-base font-semibold text-gray-700 ml-2">{property.baths} Bath</Text>
+              <Text className="font-semibold ml-2" size='sm'>{property.baths} Bath</Text>
             </View>
             <View className="flex-1 flex-row items-center justify-center">
               <Square color="#6B7280" size={20} strokeWidth={2} />
-              <Text className="text-base font-semibold text-gray-700 ml-2">{property.sqft} Sqft</Text>
+              <Text className="font-semibold ml-2" size='sm'>{property.sqft} Sqft</Text>
             </View>
           </View>
         </Animated.View>
@@ -173,54 +177,55 @@ export default function PropertyDetailScreen() {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ flex: 1 }}
-          contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 60 }}
-          className='bg-white'
+          contentContainerStyle={{ paddingHorizontal: moderateScale(20), paddingBottom: moderateVerticalScale(60) }}
+          className='bg-white dark:bg-background'
         >
           <DescriptionSection limit={160} text={property?.description ?? ''} />
           <View className="mb-4">
-            <Text className="text-lg font-bold text-gray-900 mb-3">Facilities</Text>
+            <Text className="font-bold mb-3" size='md'>Facilities</Text>
             <View className="flex-row flex-wrap gap-3">
               {property?.facilities?.map((facility, index) => (
                 <View
                   key={index}
-                  className="bg-gray-100 px-4 py-1 rounded-full"
+                  className="bg-secondary dark:bg-secondary px-4 py-1 rounded-full"
                   style={{elevation:1}}
                 >
-                  <Text className="text-sm text-gray-700 font-medium">{facility}</Text>
+                  <Text className=" font-medium" size='sm'>{facility}</Text>
                 </View>
               ))}
             </View>
           </View>
           <View className="mb-2">
-            <Text className="text-lg font-bold text-gray-900 mb-2">Listing Broker</Text>
-            <View className="flex-row items-center bg-blue-200 p-4 rounded-xl" style={{elevation:1}}>
+            <Text className="font-bold  mb-2" size='md'>Listing Broker</Text>
+            <View className="flex-row items-center bg-blue-200 dark:bg-slate-800 p-4 rounded-xl" style={{elevation:1}}>
               <Image
                 source={property?.broker?.image}
-                className="w-12 h-12 rounded-full"
+                className=" rounded-full"
+                style={{height:heightPercent(5),width:widthPercent(11)}}
               />
               <View className="flex-1 ml-3">
-                <Text className="text-base font-semibold text-gray-900">{property?.broker?.name}</Text>
-                <Text className="text-sm text-gray-500 mt-0.5">{property?.broker?.phone}</Text>
+                <Text className=" font-semibold" size='sm'>{property?.broker?.name}</Text>
+                <Text className="mt-0.5" size='sm'>{property?.broker?.phone}</Text>
               </View>
               <View className="flex-row space-x-2 gap-2">
-                <TouchableOpacity className="w-12 h-12 rounded-full bg-blue-500 justify-center items-center">
-                  <MessageCircle color="#FFFFFF" size={22} strokeWidth={2} />
+                <TouchableOpacity className="w-12 h-12 rounded-full bg-primary dark:bg-primary justify-center items-center">
+                  <MessageCircle color={isDarkColorScheme ? "#000000"  :"#FFFFFF"} size={22} strokeWidth={2} />
                 </TouchableOpacity>
-                <TouchableOpacity className="w-12 h-12 rounded-full bg-blue-500 justify-center items-center">
-                  <Phone color="#FFFFFF" size={22} strokeWidth={2} />
+                <TouchableOpacity className="w-12 h-12 rounded-full bg-primary dark:bg-primary justify-center items-center">
+                  <Phone color={isDarkColorScheme ? "#000000"  :"#FFFFFF"} size={22} strokeWidth={2} />
                 </TouchableOpacity>
               </View>
             </View>
           </View>
           {/* Location */}
           <View className="mb-4">
-            <Text className="text-lg font-bold text-gray-900 mb-2">
+            <Text className="font-bold mb-2" size='md'>
               Location
             </Text>
 
-            <View className="bg-gray-100 rounded-2xl h-52 items-center justify-center" style={{elevation:1}}>
-              <Text className="text-gray-500">Map View</Text>
-              <Text className="text-gray-400 text-sm mt-1">
+            <View className="bg-secondary dark:bg-secondary rounded-2xl h-52 items-center justify-center" style={{elevation:1}}>
+              <Text className="" size='md'>Map View</Text>
+              <Text className=" mt-1" size='sm'>
                 Interactive map would be here
               </Text>
             </View>
@@ -230,10 +235,10 @@ export default function PropertyDetailScreen() {
       {/* Book Now Button */}
       <Animated.View
         entering={FadeInUp.delay(400)}
-        className="absolute bottom-0 left-0 right-0 bg-white px-5 py-2 pb-4 border-t border-gray-100"
+        className="absolute bottom-0 left-0 right-0 bg-white dark:bg-background px-5 py-2 pb-4 border-t border-border dark:border-border"
       >
-        <Button onPress={handleBookNow} className='mb-2 bg-blue-700 rounded-full' style={{elevation:1}}>
-          <Text className="text-white text-lg font-bold">Book Now</Text>
+        <Button onPress={handleBookNow} className='mb-2 bg-primary dark:bg-primary rounded-full' style={{elevation:1}}>
+          <Text className="font-bold " size='md'>Book Now</Text>
         </Button>
       </Animated.View>
     </>

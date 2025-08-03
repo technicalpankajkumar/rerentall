@@ -1,304 +1,207 @@
-import SafeAreaWithGradientBg from "@/components/utility/SafeAreaWithGradientBg";
-import { router } from "expo-router";
+import { ToggleTheme } from '@/components/ThemeToggle';
+import { Text } from '@/components/ui/text';
+import { CategorySelector } from '@/components/utility/CategorySelector';
+import { PropertyCard } from '@/components/utility/PropertyCard';
+import { PropertySkeleton } from '@/components/utility/PropertySkeleton';
+import { SearchBar } from '@/components/utility/SearchBar';
+import { useColorScheme } from '@/lib/useColorScheme';
+import * as Location from 'expo-location';
+import { router } from 'expo-router';
+import { Bell, ChevronDown, MapPin } from 'lucide-react-native';
+import React, { useEffect, useState } from 'react';
 import {
-  Filter,
-  Heart,
-  Search
-} from "lucide-react-native";
-import React from "react";
-import {
-  Image,
-  ScrollView,
-  Text,
-  TextInput,
+  FlatList,
   TouchableOpacity,
   View
-} from "react-native";
+} from 'react-native';
+import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
+
+interface Property {
+  id: string;
+  title: string;
+  price: number;
+  location: string;
+  beds: number;
+  baths: number;
+  sqft: number;
+  image: string;
+  type: string;
+  isFavorite: boolean;
+}
 
 export default function HomeScreen() {
-  const featuredProperties = [
-    {
-      id: 1,
-      title: "The Urban Nest",
-      location: "New York, US",
-      price: 290,
-      rating: 4.8,
-      image:
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80",
-    },
-    {
-      id: 2,
-      title: "Luxe Villa",
-      location: "Paris, FR",
-      price: 320,
-      rating: 4.9,
-      image:
-        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80",
-    },
-  ];
+  const [location, setLocation] = useState('Lahore, Pakistan');
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [properties, setProperties] = useState<Property[]>([]);
+  const { isDarkColorScheme} = useColorScheme()
 
-  const recommendations = [
-    {
-      id: 1,
-      title: "Modern Apartment",
-      location: "Downtown",
-      price: 180,
-      image:
-        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=300&q=80",
-    },
-    {
-      id: 2,
-      title: "Cozy Studio",
-      location: "Midtown",
-      price: 150,
-      image:
-        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=300&q=80",
-    },
-  ];
+  useEffect(() => {
+    getCurrentLocation();
+    loadProperties();
+  }, []);
 
-  const facilities = [
-    { icon: "🚗", name: "Car Parking" },
-    { icon: "🏋️", name: "Gym & Fitness" },
-    { icon: "🏊", name: "Swimming Pool" },
-    { icon: "🍽️", name: "Restaurant" },
-    { icon: "📶", name: "Wi-Fi & Network" },
-    { icon: "🐕", name: "Pet Center" },
-    { icon: "⚽", name: "Sport Center" },
-    { icon: "🧺", name: "Laundry" },
-  ];
+  const getCurrentLocation = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') return;
 
-  const filterTabs = ["All", "Villa", "House", "Apartment", "Hotel"];
+      const location = await Location.getCurrentPositionAsync({});
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+
+      if (address[0]) {
+        setLocation(`${address[0].city}, ${address[0].country}`);
+      }
+    } catch (error) {
+      console.log('Error getting location:', error);
+    }
+  };
+
+  const loadProperties = () => {
+    setTimeout(() => {
+      setProperties([
+        {
+          id: '1',
+          title: 'Mark Willson Property',
+          price: 1900,
+          location: 'DHA, North Nazimabad, Bahria Town Lahore, Pakistan',
+          beds: 3,
+          baths: 2,
+          sqft: 2567,
+          image: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+          type: 'House',
+          isFavorite: false,
+        },
+        {
+          id: '2',
+          title: 'Eleanor Pena Property',
+          price: 1200,
+          location: '1901 Thornridge Cir. Shiloh 81073',
+          beds: 2,
+          baths: 1,
+          sqft: 1800,
+          image: 'https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg',
+          type: 'Villa',
+          isFavorite: true,
+        },
+        {
+          id: '3',
+          title: 'Bessie Cooper Property',
+          price: 1000,
+          location: '3517 W. Gray Rd. Utica, Pennsylvania 57867',
+          beds: 4,
+          baths: 3,
+          sqft: 3200,
+          image: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg',
+          type: 'House',
+          isFavorite: false,
+        },
+        {
+          id: '4',
+          title: 'Darrell Steward Property',
+          price: 850,
+          location: 'Connecticut 35624',
+          beds: 2,
+          baths: 2,
+          sqft: 1950,
+          image: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg',
+          type: 'Apartment',
+          isFavorite: false,
+        },
+      ]);
+      setIsLoading(false);
+    }, 1500);
+  };
+
+  const handlePropertyPress = (property: Property) => {
+    router.push(`/properties/${property.id}`);
+  };
+
+  const renderRecommendedProperty = ({ item, index }: { item: Property; index: number }) => (
+    <Animated.View entering={FadeInDown.delay(index * 100)} className="mr-4">
+      <PropertyCard property={item} onPress={() => handlePropertyPress(item)} />
+    </Animated.View>
+  );
+
+  const renderNearbyProperty = ({ item, index }: { item: Property; index: number }) => (
+    <Animated.View entering={FadeInDown.delay(index * 150)} className="mb-2">
+      <PropertyCard property={item} onPress={() => handlePropertyPress(item)} horizontal />
+    </Animated.View>
+  );
+
+  if (isLoading) return <PropertySkeleton />;
 
   return (
-    <SafeAreaWithGradientBg center={true}>
-      <ScrollView className="" showsVerticalScrollIndicator={false}>
+    <View style={{ flex: 1 }} className='bg-white dark:bg-background'>
+      <>
         {/* Header */}
-        <View className="px-4 pt-4 pb-2">
-          <View className="flex-row items-center justify-between mb-4">
-            <View className="flex-row items-center">
-              <TouchableOpacity onPress={()=>router.push('/(common)/profiles')}>
-              <Image
-                source={{
-                  uri: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mohammad",
-                }}
-                alt="Image"
-                className="w-10 h-10 rounded-full mr-3"
-              />
-              </TouchableOpacity>
-              <View>
-                <Text className="text-gray-500 text-sm">Good Morning 👋</Text>
-                <Text className="text-lg font-semibold text-gray-900">
-                  Pankaj
-                </Text>
-              </View>
-            </View>
-            <TouchableOpacity>
-              <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center">
-                <Text className="text-lg">🔔</Text>
-              </View>
+        <Animated.View entering={FadeInUp} className="flex-row justify-between items-end px-5 py-2 mb-2">
+          <View className="flex-1">
+            <Text className="font-medium mb-1 ms-1" size='md'>Location</Text>
+            <TouchableOpacity className="flex-row items-center justify-start">
+              <MapPin color="#3B82F6" size={16} />
+              <Text className=" font-semibold  mx-1" size='sm'>{location}</Text>
+              <ChevronDown color="#9CA3AF" size={16} />
             </TouchableOpacity>
           </View>
+          <View className='flex-row gap-2'>
+            <TouchableOpacity className="relative p-2">
+              <Bell color={isDarkColorScheme? "#ffffff" :"#374151"} size={24} />
+              <View className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+            </TouchableOpacity>
+            <ToggleTheme/>
+          </View>
+        </Animated.View>
 
-          {/* Search Bar */}
-          <View className="flex-row items-center bg-gray-100 rounded-xl px-4 py-3 mb-4">
-            <Search size={20} color="#9CA3AF" />
-            <TextInput
-              placeholder="Search by locations"
-              className="flex-1 ml-3 text-gray-700"
-              placeholderTextColor="#9CA3AF"
-            />
-            <TouchableOpacity>
-              <Filter size={20} color="#3B82F6" />
+        {/* Search Bar */}
+        <Animated.View entering={FadeInDown.delay(100)} className="">
+          <SearchBar value={searchQuery} onChangeText={setSearchQuery} onFilterPress={() => {}} />
+        </Animated.View>
+        {/* Categories */}
+        <Animated.View entering={FadeInDown.delay(200)} className="ps-4 mt-4">
+          <CategorySelector selectedCategory={selectedCategory} onCategorySelect={setSelectedCategory} />
+        </Animated.View>
+        {/* Recommended Properties */}
+        <Animated.View entering={FadeInDown.delay(300)} className="mt-4">
+          <View className="flex-row justify-between items-center px-5 mb-3">
+            <Text className="font-bold " size='md'>Recommended Property</Text>
+            <TouchableOpacity onPress={()=>router.push("/(common)/properties/property-list")}>
+              <Text className=" font-semibold text-blue-500 dark:text-blue-700" size='md'>See all</Text>
             </TouchableOpacity>
           </View>
-        </View>
-
-        {/* Featured Section */}
-        <View className="mb-6">
-          <View className="flex-row justify-between items-center px-4 mb-4">
-            <Text className="text-xl font-bold text-gray-900">Featured</Text>
-            <TouchableOpacity onPress={()=>router.push("/(common)/properties/rental-listing")}>
-              <Text className="text-blue-500 font-medium">See All</Text>
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView
+          <FlatList
+            data={properties}
+            renderItem={renderRecommendedProperty}
+            keyExtractor={(item) => item.id}
             horizontal
             showsHorizontalScrollIndicator={false}
-            className="px-4"
-          >
-            {featuredProperties.map((property) => (
-              <TouchableOpacity key={property.id} className="mr-4 w-64" onPress={()=>router.push('/(common)/properties/property-details')}>
-                <View className="relative">
-                  <Image
-                    source={{ uri: property.image }}
-                    className="w-full h-40 rounded-2xl"
-                  />
-                  <View className="absolute top-3 left-3 bg-black/50 px-2 py-1 rounded-lg">
-                    <Text className="text-white text-sm font-medium">
-                      ⭐ {property.rating}
-                    </Text>
-                  </View>
-                  <TouchableOpacity className="absolute top-3 right-3">
-                    <Heart size={24} color="white" />
-                  </TouchableOpacity>
-                </View>
-                <View className="mt-3">
-                  <Text className="text-lg font-bold text-gray-900">
-                    {property.title}
-                  </Text>
-                  <Text className="text-gray-500 text-sm">
-                    {property.location}
-                  </Text>
-                  <Text className="text-lg font-bold text-gray-900 mt-1">
-                    ${property.price}
-                    <Text className="text-sm font-normal text-gray-500">
-                      /night
-                    </Text>
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+            contentContainerStyle={{ paddingHorizontal: 20 }}
+          />
+        </Animated.View>
 
-        {/* Our Recommendation Section */}
-        <View className="mb-6">
-          <View className="flex-row justify-between items-center px-4 mb-4">
-            <Text className="text-xl font-bold text-gray-900">
-              Our Recommendation
-            </Text>
-            <TouchableOpacity>
-              <Text className="text-blue-500 font-medium">See All</Text>
+        {/* Nearby Properties */}
+        <Animated.View entering={FadeInDown.delay(400)} className="mt-4 flex-1">
+          <View className="flex-row justify-between items-center px-4 mb-2">
+            <Text className=" font-bold" size='md'>Nearby Property</Text>
+            <TouchableOpacity onPress={()=>router.push("/(common)/properties/property-list")}>
+              <Text className="font-semibold text-blue-500 dark:text-blue-700" size='md'>See all</Text>
             </TouchableOpacity>
           </View>
-
-          {/* Filter Tabs */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            className="px-4 mb-4"
-          >
-            {filterTabs.map((tab, index) => (
-              <TouchableOpacity
-                key={tab}
-                className={`mr-3 px-4 py-2 rounded-full ${
-                  index === 0 ? "bg-blue-500" : "bg-gray-100"
-                }`}
-              >
-                <Text
-                  className={`font-medium ${
-                    index === 0 ? "text-white" : "text-gray-600"
-                  }`}
-                >
-                  {tab}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-
-          {/* Recommendation Cards */}
-          <View className="px-4">
-            {recommendations.map((item) => (
-              <View
-                key={item.id}
-                className="flex-row bg-white rounded-2xl shadow-sm mb-4 p-3"
-              >
-                <Image
-                  source={{ uri: item.image }}
-                  className="w-20 h-20 rounded-xl mr-3"
-                />
-                <View className="flex-1">
-                  <Text className="text-lg font-semibold text-gray-900">
-                    {item.title}
-                  </Text>
-                  <Text className="text-gray-500 text-sm mb-2">
-                    {item.location}
-                  </Text>
-                  <Text className="text-lg font-bold text-gray-900">
-                    ${item.price}
-                    <Text className="text-sm font-normal text-gray-500">
-                      /night
-                    </Text>
-                  </Text>
-                </View>
-                <TouchableOpacity className="self-start">
-                  <Heart size={20} color="#9CA3AF" />
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {/* Facilities Section */}
-        <View className="px-4 mb-6">
-          <Text className="text-xl font-bold text-gray-900 mb-4">
-            Facilities
-          </Text>
-          <View className="flex-row flex-wrap justify-between">
-            {facilities.map((facility, index) => (
-              <TouchableOpacity
-                key={index}
-                className="w-[22%] items-center mb-4 p-3 bg-gray-50 rounded-xl"
-              >
-                <Text className="text-2xl mb-2">{facility.icon}</Text>
-                <Text className="text-xs text-gray-600 text-center font-medium">
-                  {facility.name}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-
-        {/* Gallery Section */}
-        <View className="px-4 mb-6">
-          <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-bold text-gray-900">Gallery</Text>
-            <TouchableOpacity>
-              <Text className="text-blue-500 font-medium">See All</Text>
-            </TouchableOpacity>
-          </View>
-          <View className="flex-row">
-            <Image
-              source={{
-                uri: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=300&q=80",
-              }}
-              className="w-24 h-24 rounded-xl mr-3"
-            />
-            <Image
-              source={{
-                uri: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&q=80",
-              }}
-              className="w-24 h-24 rounded-xl mr-3"
-            />
-            <View className="w-24 h-24 rounded-xl bg-gray-200 items-center justify-center">
-              <Text className="text-gray-600 font-bold">10+</Text>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-      {/* Bottom Navigation */}
-      {/* <View className="flex-row bg-white border-t border-gray-100 py-2">
-        {[
-          { icon: "🏠", label: "Home", active: true },
-          { icon: "🔍", label: "Explore", active: false },
-          { icon: "❤️", label: "Favorites", active: false },
-          { icon: "💬", label: "Messages", active: false },
-          { icon: "👤", label: "Profile", active: false },
-        ].map((tab, index) => (
-          <TouchableOpacity key={index} className="flex-1 items-center py-2">
-            <Text className="text-lg mb-1">{tab.icon}</Text>
-            <Text
-              className={`text-xs ${
-                tab.active ? "text-blue-500 font-medium" : "text-gray-400"
-              }`}
-            >
-              {tab.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View> */}
-
-    </SafeAreaWithGradientBg>
+          <FlatList
+            data={properties}
+            renderItem={renderNearbyProperty}
+            keyExtractor={(item) => item.id}
+            key="mobile"
+            contentContainerStyle={{ padding: 16, paddingBottom:0, paddingTop: 0 }}
+            showsVerticalScrollIndicator={false}
+            style={{ flex: 1 }}
+          />
+        </Animated.View>
+      </>
+    </View>
   );
 }

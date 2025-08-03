@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
+import { Dimensions, ScrollView, View } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -31,8 +31,8 @@ export function PropertyDetailSkeleton() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <>
+      <ScrollView showsVerticalScrollIndicator={false} className=' relative'>
         <View className="absolute top-[60px] left-0 right-0 z-10 px-5 flex-row justify-between items-center">
           <SkeletonBox style={{ width: 40, height: 40, borderRadius: 20 }} />
           <View className="flex-row space-x-3 gap-2">
@@ -49,7 +49,7 @@ export function PropertyDetailSkeleton() {
           ))}
         </View>
 
-        <View className="bg-white -mt-6 pt-6 px-5 pb-24 rounded-t-3xl">
+        <View className="bg-white dark:bg-background -mt-6 pt-6 px-5 pb-24 rounded-t-3xl">
           <View className="flex-row justify-between items-center mb-3">
             <SkeletonBox style={{ width: 50, height: 14 }} />
             <SkeletonBox style={{ width: 120, height: 16 }} />
@@ -82,7 +82,7 @@ export function PropertyDetailSkeleton() {
 
           <View className="mb-4">
             <SkeletonBox style={{ width: 120, height: 18, marginBottom: 12 }} />
-            <View className="flex-row items-center bg-gray-50 p-4 rounded-xl">
+            <View className="flex-row items-center bg-secondary dark:bg-secondary p-4 rounded-xl">
               <SkeletonBox style={{ width: 48, height: 48, borderRadius: 24 }} />
               <View className="flex-1 ml-3">
                 <SkeletonBox style={{ width: 120, height: 16, marginBottom: 4 }} />
@@ -97,9 +97,9 @@ export function PropertyDetailSkeleton() {
         </View>
       </ScrollView>
 
-      <View className="absolute bottom-0 left-0 right-0 bg-white px-5 py-4 border-t border-gray-100">
+      <View className="absolute bottom-0 left-0 right-0 bg-secondary  dark:bg-secondary px-5 py-4 ">
         <SkeletonBox style={{ height: 48, borderRadius: 12 }} />
       </View>
-    </SafeAreaView>
+    </>
   );
 }

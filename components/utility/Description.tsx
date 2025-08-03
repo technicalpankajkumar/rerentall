@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { Text } from '../ui/text';
 
 interface DescriptionSectionProps {
     text: string;
@@ -18,8 +19,8 @@ export function DescriptionSection({ text, limit = 200 }: DescriptionSectionProp
     return (
         <Animated.View entering={FadeInDown.delay(200)}>
             <View className="mb-4">
-                <Text className="text-lg font-bold text-gray-900 mb-1">Description</Text>
-                <Text className="text-base text-gray-500 leading-6">
+                <Text className="font-bold mb-1" size='md'>Description</Text>
+                <Text className=" leading-6" size='sm'>
                     {displayText}
                     {shouldTruncate && (
                         <TouchableOpacity onPress={() => setExpanded(pre => !pre)}>

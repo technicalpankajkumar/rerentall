@@ -57,9 +57,7 @@ export function PropertyCard({ property, onPress, style, horizontal = false }: P
           <Image source={{ uri: property.image }} className="rounded-xl" style={{width:widthPercent(25),height:heightPercent(10)}}/>
           <View className="flex-1 ps-4 pe-1">
             <View className="flex-row justify-between items-center mb-1">
-             <TouchableOpacity className='bg-slate-900 px-0.5 py-0.5 dark:bg-slate-500 h-10'>
-               <Text className=" font-medium px-2 rounded-lg " size={'xs'}>{property.type}</Text>
-             </TouchableOpacity>
+                <Text className="font-semibold  mb-0.5 bg-secondary dark:bg-secondary px-2 rounded-md"  size={'sm'}>{property.type}</Text>
               <TouchableOpacity className="">
                 <Heart
                   color={property.isFavorite ? "#EF4444" : "#9CA3AF"}
@@ -70,7 +68,7 @@ export function PropertyCard({ property, onPress, style, horizontal = false }: P
               </TouchableOpacity>
             </View>
             <Text className="font-semibold  mb-0.5" numberOfLines={1} size={'sm'}>{property.title}</Text>
-            <Text className=" text-gray-500 dark:text-text mb-0.5" numberOfLines={1} size={'xs'} >{property.location}</Text>
+            <Text className=" text-gray-500 dark:text-text mb-2" numberOfLines={1} size={'xs'} >{property.location}</Text>
             <Text className="font-bold "size={'sm'}>${property.price}/Month</Text>
           </View>
         </TouchableOpacity>

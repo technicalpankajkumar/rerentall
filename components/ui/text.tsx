@@ -46,7 +46,7 @@ function Text({
 
   return (
     <Component
-      className={cn('text-foreground web:select-text dark:text-text', textClass, className)}
+      className={cn('text-primary text:bg-primary  web:select-text ', textClass, className)}
       style={combinedStyle}
       {...props}
     />

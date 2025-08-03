@@ -2,9 +2,9 @@ import { Text } from "@/components/ui/text"
 import { View } from "react-native"
 
 
-const Saved=()=>{
+const Setting=()=>{
     return (<View>
-        <Text>Saved</Text>
+        <Text>Setting</Text>
     </View>)
 }
-export default Saved
+export default Setting
