@@ -15,7 +15,7 @@ export const ToggleTheme = () => {
   return (
     <Pressable
       onPress={toggleTheme}
-      className="flex-row items-center w-10 justify-center px-5 py-2 rounded-full bg-gray-200 dark:bg-gray-700"
+      className="flex-row items-center w-11 justify-center px-5 py-2 rounded-full bg-gray-200 dark:bg-slate-800"
     >
       {isDark ? (
         <Sun size={20} color="#fff" />

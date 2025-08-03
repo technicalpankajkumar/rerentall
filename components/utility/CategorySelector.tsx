@@ -1,3 +1,5 @@
+import { useResponsive } from '@/hooks/useResponsive';
+import { useColorScheme } from '@/lib/useColorScheme';
 import { cn } from '@/lib/utils';
 import { Barcode as Barn, Building, Building2, Home, HousePlug, TreePine } from 'lucide-react-native';
 import React from 'react';
@@ -25,6 +27,8 @@ const categories: Category[] = [
 ];
 
 export function CategorySelector({ selectedCategory, onCategorySelect }: CategorySelectorProps) {
+  const {heightPercent,widthPercent} = useResponsive();
+  const {isDarkColorScheme} = useColorScheme();
   return (
     <View className="px-1">
       <ScrollView
@@ -40,9 +44,10 @@ export function CategorySelector({ selectedCategory, onCategorySelect }: Categor
             >
               <View
                 className={cn(
-                  'w-14 h-14 rounded-full justify-center items-center mb-1',
-                  selectedCategory === category.id ? 'bg-blue-100' : 'bg-gray-100'
+                  'rounded-full justify-center items-center mb-1',
+                  selectedCategory === category.id ? 'bg-blue-300' : 'bg-gray-100 dark:bg-slate-800',
                 )}
+                style={{height:heightPercent(6),width:widthPercent(12)}}
               >
                 {React.cloneElement(category.icon as React.ReactElement, {
                   color: selectedCategory === category.id ? '#3B82F6' : '#6B7280',

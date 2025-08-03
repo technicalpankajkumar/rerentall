@@ -1,7 +1,9 @@
+import { useResponsive } from '@/hooks/useResponsive';
 import { Bath, Bed, Heart, Square } from 'lucide-react-native';
 import React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { Text } from '../ui/text';
 
 interface Property {
   id: string;
@@ -25,6 +27,7 @@ interface PropertyCardProps {
 
 export function PropertyCard({ property, onPress, style, horizontal = false }: PropertyCardProps) {
   const scale = useSharedValue(1);
+  const {heightPercent,widthPercent,scale:horizantalScle,moderateVerticalScale} = useResponsive()
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -44,17 +47,19 @@ export function PropertyCard({ property, onPress, style, horizontal = false }: P
     return (
       <Animated.View style={[animatedStyle, style]}>
         <TouchableOpacity
-          className="flex-row bg-white rounded-xl overflow-hidden p-2 border border-slate-100"
+          className="flex-row bg-card dark:bg-card border border-gray-200 dark:border-border rounded-xl overflow-hidden"
           onPress={onPress}
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           activeOpacity={1}
-          style={{elevation:1}}
+          style={{elevation:1,padding:horizantalScle(4)}}
         >
-          <Image source={{ uri: property.image }} className="w-32 h-full rounded-xl" />
+          <Image source={{ uri: property.image }} className="rounded-xl" style={{width:widthPercent(25),height:heightPercent(10)}}/>
           <View className="flex-1 ps-4 pe-1">
             <View className="flex-row justify-between items-center mb-1">
-              <Text className="text-sm text-gray-500 font-medium">{property.type}</Text>
+             <TouchableOpacity className='bg-slate-900 px-0.5 py-0.5 dark:bg-slate-500 h-10'>
+               <Text className=" font-medium px-2 rounded-lg " size={'xs'}>{property.type}</Text>
+             </TouchableOpacity>
               <TouchableOpacity className="">
                 <Heart
                   color={property.isFavorite ? "#EF4444" : "#9CA3AF"}
@@ -64,9 +69,9 @@ export function PropertyCard({ property, onPress, style, horizontal = false }: P
                 />
               </TouchableOpacity>
             </View>
-            <Text className="text-sm font-semibold text-gray-800 mb-0.5" numberOfLines={1}>{property.title}</Text>
-            <Text className="text-xs text-gray-400 mb-2" numberOfLines={1}>{property.location}</Text>
-            <Text className="text-base font-bold text-gray-800">${property.price}/Month</Text>
+            <Text className="font-semibold  mb-0.5" numberOfLines={1} size={'sm'}>{property.title}</Text>
+            <Text className=" text-gray-500 dark:text-text mb-0.5" numberOfLines={1} size={'xs'} >{property.location}</Text>
+            <Text className="font-bold "size={'sm'}>${property.price}/Month</Text>
           </View>
         </TouchableOpacity>
       </Animated.View>
@@ -74,7 +79,7 @@ export function PropertyCard({ property, onPress, style, horizontal = false }: P
   }
 
   return (
-    <Animated.View style={[animatedStyle,{elevation:1}]} className="rounded-2xl w-72 border border-slate-100 bg-white mb-1" >
+    <Animated.View style={[animatedStyle,{elevation:1,width:widthPercent(50)}]} className="rounded-2xl bg-card dark:bg-card border border-gray-200 dark:border-border mb-1">
       <TouchableOpacity
         onPress={onPress}
         onPressIn={handlePressIn}
@@ -82,9 +87,9 @@ export function PropertyCard({ property, onPress, style, horizontal = false }: P
         activeOpacity={1}
          
       >
-        <View className="relative h-44 rounded-t-2xl overflow-hidden p-2" >
+        <View className="relative rounded-t-2xl overflow-hidden p-2" style={{height:heightPercent(15)}}>
           <Image source={{ uri: property.image }} className="w-full h-full rounded-xl" />
-          <TouchableOpacity className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/30 justify-center items-center">
+          <TouchableOpacity className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/30 dark:bg-black/50 justify-center items-center">
             <Heart
               color={property.isFavorite ? "#EF4444" : "#FFFFFF"}
               size={18}
@@ -92,28 +97,28 @@ export function PropertyCard({ property, onPress, style, horizontal = false }: P
               fill={property.isFavorite ? "#EF4444" : "none"}
             />
           </TouchableOpacity>
-          <View className="absolute bottom-3 left-3 bg-black/70 px-2 py-1 rounded-md">
-            <Text className="text-white text-xs font-medium">{property.type}</Text>
+          <View className="absolute bottom-3 left-3 bg-black/70 dark:bg-black/50 px-2 py-1 rounded-lg">
+            <Text className="text-white font-medium"size={'sm'}>{property.type}</Text>
           </View>
         </View>
         <View className="px-3 pt-1 pb-2">
-          <Text className="text-base font-bold text-gray-800 mb-1" numberOfLines={1}>{property.title}</Text>
-          <Text className="text-sm text-gray-500 mb-3" numberOfLines={1}>{property.location}</Text>
+          <Text className=" font-bold  mb-1" numberOfLines={1} size='md'>{property.title}</Text>
+          <Text className=" text-gray-500 dark:text-gray-700 mb-3" numberOfLines={1} size={'sm'}>{property.location}</Text>
           <View className="flex-row space-x-4 mb-3 gap-2">
-            <View className="flex-row items-center space-x-1">
+            <View className="flex-row items-center space-x-1 gap-2">
               <Bed color="#6B7280" size={14} />
-              <Text className="text-xs text-gray-500 font-medium">{property.beds}</Text>
+              <Text className="text-gray-500 dark:text-gray-700 font-medium" size={'xs'}>{property.beds}</Text>
             </View>
             <View className="flex-row items-center space-x-1">
               <Bath color="#6B7280" size={14} />
-              <Text className="text-xs text-gray-500 font-medium">{property.baths}</Text>
+              <Text className="text-gray-500 dark:text-gray-700 font-medium" size={'sm'}>{property.baths}</Text>
             </View>
             <View className="flex-row items-center space-x-1">
               <Square color="#6B7280" size={14} />
-              <Text className="text-xs text-gray-500 font-medium">{property.sqft}</Text>
+              <Text className="text-gray-500 dark:text-gray-700 font-medium" size={'sm'}>{property.sqft}</Text>
             </View>
           </View>
-          <Text className="text-lg font-bold text-gray-800 pb-1">${property.price}/Month</Text>
+          <Text className="font-bold  pb-1" size='md'>${property.price}/Month</Text>
         </View>
       </TouchableOpacity>
     </Animated.View>
