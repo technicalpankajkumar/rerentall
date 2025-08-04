@@ -1,6 +1,6 @@
 import { useColorScheme } from "@/lib/useColorScheme";
 import { Tabs } from "expo-router";
-import { House, Settings, User } from "lucide-react-native";
+import { House, MessageCircle, Settings, User } from "lucide-react-native";
 
 const RentalLayout = () => {
   const {isDarkColorScheme} = useColorScheme()
@@ -41,15 +41,15 @@ const RentalLayout = () => {
           ),
         }}
       />
-      {/* <Tabs.Screen
-        name="favorites"
+      <Tabs.Screen
+        name="chat"
         options={{
-          title: 'Favorites',
+          title: 'Chats',
           tabBarIcon: ({ color, size }) => (
-            <Heart color={color} size={size} strokeWidth={2} />
+            <MessageCircle color={color} size={size} strokeWidth={2} />
           ),
         }}
-      /> */}
+      />
       <Tabs.Screen
         name="setting"
         options={{

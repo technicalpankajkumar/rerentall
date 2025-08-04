@@ -34,7 +34,7 @@ export default function Index() {
 
   useEffect(() => {
     if (!loading && !user && pathname === '/') {
-      router.replace('/(renter)/dashboard');
+      router.replace('/(renter)/home');
     }
   }, [user, loading]);
 
