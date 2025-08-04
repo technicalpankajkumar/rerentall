@@ -1,8 +1,8 @@
 // app/(auth)/login.tsx
 import { useLoginMutation } from '@/api';
+import SafeAreaWithGradientBg from '@/components/partials/SafeAreaWithGradientBg';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import SafeAreaWithGradientBg from '@/components/utility/SafeAreaWithGradientBg';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'expo-router';
 import { useFormik } from 'formik';

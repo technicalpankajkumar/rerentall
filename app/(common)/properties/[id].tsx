@@ -1,30 +1,30 @@
+import { PropertyDetailSkeleton } from '@/components/skeletons/ProperyDetailSkeleton';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { DescriptionSection } from '@/components/utility/Description';
 import { ImageCarousel } from '@/components/utility/ImageCarousel';
-import { PropertyDetailSkeleton } from '@/components/utility/ProperyDetailSkeleton';
 import { useResponsive } from '@/hooks/useResponsive';
 import { useColorScheme } from '@/lib/useColorScheme';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
-  ArrowLeft,
-  Bath,
-  Bed,
-  Heart,
-  MapPin,
-  MessageCircle,
-  Phone,
-  Share,
-  Square,
-  Star,
+    ArrowLeft,
+    Bath,
+    Bed,
+    Heart,
+    MapPin,
+    MessageCircle,
+    Phone,
+    Share,
+    Square,
+    Star,
 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
-  Dimensions,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  View
+    Dimensions,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 

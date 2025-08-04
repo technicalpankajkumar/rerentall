@@ -44,7 +44,7 @@ const RentalLayout = () => {
       <Tabs.Screen
         name="chat"
         options={{
-          title: 'Chats',
+          title: 'Chat',
           tabBarIcon: ({ color, size }) => (
             <MessageCircle color={color} size={size} strokeWidth={2} />
           ),

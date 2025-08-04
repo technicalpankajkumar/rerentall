@@ -1,3 +1,5 @@
+import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ArrowLeft, MoveVertical as MoreVertical, Phone, Send, Smile, Video } from 'lucide-react-native';
 import React, { useState } from 'react';
@@ -5,12 +7,9 @@ import {
   Alert,
   FlatList,
   Image,
-  Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 // import ActionSheet from '@/components/ActionSheet';
 // import ReactionPicker from '@/components/ReactionPicker';
 // import MessageActionsSheet from '@/components/MessageActionsSheet';
@@ -142,7 +141,7 @@ export default function ChatScreen() {
   const renderMessage = ({ item }: { item: Message }) => (
     <TouchableOpacity
       onLongPress={() => handleLongPress(item.id)}
-      className={`my-1 ${item.isFromUser ? 'items-end' : 'items-start'}`}
+      className={`my-1 px-1 ${item.isFromUser ? 'items-end' : 'items-start'}`}
     >
       <View
         className={`max-w-[80%] px-4 py-2.5 rounded-[18px] ${
@@ -152,16 +151,18 @@ export default function ChatScreen() {
         }`}
       >
         <Text
-          className={`text-[15px] leading-5 mb-1 ${
+          className={`leading-5 mb-1 ${
             item.isFromUser ? 'text-white' : 'text-black dark:text-white'
           }`}
+          size='md'
         >
           {item.text}
         </Text>
         <Text
-          className={`text-xs self-end ${
+          className={`self-end ${
             item.isFromUser ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
           }`}
+          size='sm'
         >
           {item.timestamp}
         </Text>
@@ -169,7 +170,7 @@ export default function ChatScreen() {
       {item.reactions && item.reactions.length > 0 && (
         <View className="flex-row mt-1 px-2">
           {item.reactions.map((reaction, index) => (
-            <Text key={index} className="text-base mr-1">
+            <Text key={index} className="mr-1" size='md'>
               {reaction}
             </Text>
           ))}
@@ -179,7 +180,7 @@ export default function ChatScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-black">
+    <View className="flex-1 bg-gray-100 dark:bg-black">
       <View className="flex-row items-center px-4 py-3 bg-white dark:bg-neutral-900 border-b border-gray-200 dark:border-gray-700">
         <TouchableOpacity onPress={() => router.back()} className="mr-3">
           <ArrowLeft size={24} color="#007AFF" />
@@ -187,8 +188,8 @@ export default function ChatScreen() {
         <View className="flex-1 flex-row items-center">
           <Image source={{ uri: avatar }} className="w-10 h-10 rounded-full mr-3 bg-gray-100 dark:bg-neutral-800" />
           <View>
-            <Text className="text-base font-semibold text-black dark:text-white">{doctorName}</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">
+            <Text className="font-semibold mb-0.5" size='md'>{doctorName}</Text>
+            <Text className=" text-gray-500 dark:text-gray-400" size='sm'>
               {isOnline ? 'Online' : 'Last seen recently'}
             </Text>
           </View>
@@ -207,7 +208,7 @@ export default function ChatScreen() {
       </View>
 
       <View className="items-center py-4">
-        <Text className="text-xs text-gray-500 dark:text-gray-400 bg-white dark:bg-neutral-800 px-3 py-1 rounded-full">
+        <Text className=" text-gray-500 dark:text-gray-400 bg-white dark:bg-neutral-800 px-3 py-1 rounded-full" size='sm'>
           Today, December 20
         </Text>
       </View>
@@ -222,12 +223,12 @@ export default function ChatScreen() {
       />
 
       <View className="bg-white dark:bg-neutral-900 px-4 py-3 border-t border-gray-200 dark:border-gray-700">
-        <View className="flex-row items-end bg-gray-100 dark:bg-neutral-800 rounded-full px-3 py-2">
+        <View className="flex-row items-center bg-gray-100 dark:bg-slate-800 rounded-full px-3">
           <TouchableOpacity className="mr-2 mb-1">
             <Smile size={24} color="#8E8E93" />
           </TouchableOpacity>
-          <TextInput
-            className="flex-1 text-base text-black dark:text-white max-h-[100px] min-h-[24px]"
+          <Input
+            className="flex-1 text-black dark:text-white max-h-[100px] min-h-[24px] bg-slate-800"
             placeholder="Type messages..."
             placeholderTextColor="#999"
             value={newMessage}
@@ -267,6 +268,6 @@ export default function ChatScreen() {
       <ActionSheet visible={showReactions} onClose={closeActionSheet} title="Choose a reaction">
         <ReactionPicker onReaction={handleReaction} onClose={closeActionSheet} />
       </ActionSheet> */}
-    </SafeAreaView>
+    </View>
   );
 }

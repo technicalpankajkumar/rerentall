@@ -1,8 +1,8 @@
+import { PropertySkeleton } from '@/components/skeletons/PropertySkeleton';
 import { ToggleTheme } from '@/components/ThemeToggle';
 import { Text } from '@/components/ui/text';
 import { CategorySelector } from '@/components/utility/CategorySelector';
 import { PropertyCard } from '@/components/utility/PropertyCard';
-import { PropertySkeleton } from '@/components/utility/PropertySkeleton';
 import { SearchBar } from '@/components/utility/SearchBar';
 import { useColorScheme } from '@/lib/useColorScheme';
 import * as Location from 'expo-location';
@@ -10,9 +10,9 @@ import { router } from 'expo-router';
 import { ArrowLeft, Bell } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
-  FlatList,
-  TouchableOpacity,
-  View
+    FlatList,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 

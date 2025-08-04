@@ -1,18 +1,18 @@
-import SafeAreaWithGradientBg from "@/components/utility/SafeAreaWithGradientBg";
+import SafeAreaWithGradientBg from "@/components/partials/SafeAreaWithGradientBg";
 import { router } from "expo-router";
 import {
-  Filter,
-  Heart,
-  Search
+    Filter,
+    Heart,
+    Search
 } from "lucide-react-native";
 import React from "react";
 import {
-  Image,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
+    Image,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from "react-native";
 
 export default function HomeScreen() {

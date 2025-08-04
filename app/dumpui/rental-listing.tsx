@@ -1,23 +1,23 @@
-import SafeAreaWithGradientBg from "@/components/utility/SafeAreaWithGradientBg";
+import SafeAreaWithGradientBg from "@/components/partials/SafeAreaWithGradientBg";
 import { router } from "expo-router";
 import {
-  ArrowLeft,
-  Heart,
-  MapPin,
-  Search,
-  Star,
-  Verified
+    ArrowLeft,
+    Heart,
+    MapPin,
+    Search,
+    Star,
+    Verified
 } from "lucide-react-native";
 import React, { useState } from "react";
 import {
-  FlatList,
-  Image,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  useWindowDimensions,
-  View
+    FlatList,
+    Image,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    useWindowDimensions,
+    View
 } from "react-native";
 
 export default function RentalListingScreen() {

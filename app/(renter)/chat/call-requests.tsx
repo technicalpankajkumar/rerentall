@@ -1,7 +1,8 @@
+import { Text } from '@/components/ui/text';
 import { useRouter } from 'expo-router';
 import { Phone, PhoneCall, PhoneOff } from 'lucide-react-native';
 import React from 'react';
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, TouchableOpacity, View } from 'react-native';
 
 interface CallRequest {
   id: string;
@@ -83,12 +84,12 @@ export default function CallRequestsScreen() {
       />
 
       <View className="flex-1">
-        <Text className="text-base font-semibold text-black dark:text-white">{item.doctorName}</Text>
-        <Text className="text-sm text-gray-600 dark:text-gray-400">{item.specialty}</Text>
-        <Text className="text-xs text-gray-500 dark:text-gray-500">{item.requestTime}</Text>
+        <Text className=" font-semibold mb-0.5" size='md'>{item.doctorName}</Text>
+        <Text className="text-gray-600 dark:text-gray-400 mb-0.5" size='sm'>{item.specialty}</Text>
+        <Text className=" text-gray-500 dark:text-gray-500" size='xs'>{item.requestTime}</Text>
       </View>
 
-      <View className="flex-row items-center space-x-3">
+      <View className="flex-row items-center space-x-3 gap-2">
         {getCallIcon(item.type)}
         <TouchableOpacity
           onPress={() => startCall(item)}

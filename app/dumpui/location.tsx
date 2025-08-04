@@ -1,4 +1,4 @@
-import SafeAreaWithGradientBg from "@/components/utility/SafeAreaWithGradientBg";
+import SafeAreaWithGradientBg from "@/components/partials/SafeAreaWithGradientBg";
 import {
     Bath,
     Bed,

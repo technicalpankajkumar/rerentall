@@ -1,4 +1,4 @@
-import SafeAreaWithGradientBg from '@/components/utility/SafeAreaWithGradientBg';
+import SafeAreaWithGradientBg from '@/components/partials/SafeAreaWithGradientBg';
 import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';

@@ -1,6 +1,6 @@
+import SafeAreaWithGradientBg from '@/components/partials/SafeAreaWithGradientBg';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import SafeAreaWithGradientBg from '@/components/utility/SafeAreaWithGradientBg';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'expo-router';
 import React, { useRef } from 'react';

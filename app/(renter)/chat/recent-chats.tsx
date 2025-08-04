@@ -1,9 +1,9 @@
+import { Text } from '@/components/ui/text';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
   FlatList,
   Image,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native';
@@ -76,7 +76,7 @@ export default function RecentChatsScreen() {
 
   const navigateToChat = (chatItem: ChatItem) => {
     router.push({
-      pathname:'/chats/[id]',
+      pathname:'/(common)/chats/[id]',
       params: {
         id: chatItem.id,
         doctorName: chatItem.doctorName,
@@ -90,7 +90,7 @@ export default function RecentChatsScreen() {
     <TouchableOpacity
       onPress={() => navigateToChat(item)}
       activeOpacity={0.7}
-      className="flex-row items-center px-4 py-3 border-b border-zinc-200 dark:border-zinc-700"
+      className="flex-row items-center px-4 py-3 border-b border-zinc-200 dark:border-zinc-700 gap-1"
     >
       <View className="relative mr-3">
         <Image
@@ -104,23 +104,24 @@ export default function RecentChatsScreen() {
 
       <View className="flex-1">
         <View className="flex-row justify-between items-center mb-1">
-          <Text className="text-base font-semibold text-black dark:text-white">
+          <Text className="font-semibold" size='md'>
             {item.doctorName}
           </Text>
-          <Text className="text-xs text-zinc-500 dark:text-zinc-400">
+          <Text className="" size='sm'>
             {item.timestamp}
           </Text>
         </View>
         <View className="flex-row items-center justify-between">
           <Text
             numberOfLines={1}
-            className="text-sm text-zinc-500 dark:text-zinc-400 flex-1 mr-2"
+            className="flex-1 mr-2"
+            size='sm'
           >
             {item.lastMessage}
           </Text>
           {item.unreadCount ? (
             <View className="bg-blue-500 min-w-[20px] h-5 px-1.5 rounded-full items-center justify-center">
-              <Text className="text-white text-xs font-bold">
+              <Text className="text-white font-bold" size='sm'>
                 {item.unreadCount}
               </Text>
             </View>
