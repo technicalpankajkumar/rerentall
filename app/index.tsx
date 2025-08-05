@@ -1,50 +1,60 @@
-import { selectCurrentUser, setCredentials } from '@/store/feature/auth/slice';
+import { setCredentials } from '@/store/feature/auth/slice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { usePathname, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { ActivityIndicator, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 export default function Index() {
-  const user = useSelector(selectCurrentUser);
   const router = useRouter();
-  const pathname = usePathname(); // ensures layout is mounted
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(true); // delay render until load done
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadSession = async () => {
+    const initializeApp = async () => {
       try {
+        // Load session
         const token = await SecureStore.getItemAsync('accessToken');
         const userStr = await AsyncStorage.getItem('user');
+
         if (token && userStr) {
-          const user = JSON.parse(userStr);
-          dispatch(setCredentials({ session: { access_token: token }, user }));
+          dispatch(setCredentials({ session: { access_token: token }, user: JSON.parse(userStr) }));
         }
+
+        // Check onboarding
+        const hasSeenOnboarding = await AsyncStorage.getItem('hasSeenOnboarding');
+
+        if (!hasSeenOnboarding) {
+          return router.replace('/(onboarding)');
+        }
+
+        // If not logged in, go to login
+        if (!token || !userStr) {
+          return router.replace('/(auth)/loginScreen');
+        }
+
+        // If logged in, redirect to renter home
+        router.replace('/(renter)/home');
       } catch (error) {
-        console.log('Session load error:', error);
+        router.replace('/(auth)/loginScreen');
       } finally {
-        setLoading(false); // done loading
+        setLoading(false);
       }
     };
-    loadSession();
-  }, [dispatch]);
 
-  useEffect(() => {
-    if (!loading && !user && pathname === '/') {
-      router.replace('/(renter)/home');
-    }
-  }, [user, loading]);
+    initializeApp();
+  }, []);
 
-  if (loading || !user) return null;
+  if (loading) {
+    return (      
+      <View className="flex-1 items-center justify-center bg-white">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
-  return (
-   <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-xl font-bold text-blue-500">
-        Welcome to Nativewind!
-      </Text>
-    </View>
-  );
+  // You will rarely reach here as router.replace() is immediate
+  return null;
 }
