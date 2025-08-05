@@ -1,8 +1,14 @@
+import { useResponsive } from '@/hooks/useResponsive';
 import { cva, type VariantProps } from 'class-variance-authority';
-import * as React from 'react';
-import { Pressable } from 'react-native';
-import { cn } from 'lib/utils';
 import { TextClassContext } from 'components/ui/text';
+import { cn } from 'lib/utils';
+import * as React from 'react';
+import {
+  Pressable,
+  Text,
+  useColorScheme,
+  ViewStyle
+} from 'react-native';
 
 const buttonVariants = cva(
   'group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
@@ -14,12 +20,13 @@ const buttonVariants = cva(
         outline:
           'border border-input bg-background web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent',
         secondary: 'bg-secondary web:hover:opacity-80 active:opacity-80',
-        ghost: 'web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent',
+        ghost:
+          'web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent',
         link: 'web:underline-offset-4 web:hover:underline web:focus:underline',
       },
       size: {
         default: 'h-10 px-4 py-2 native:h-12 native:px-5 native:py-3',
-        sm: 'h-9 rounded-md px-3',
+        sm: 'h-9 rounded-md px-3 native:h-10',
         lg: 'h-11 rounded-md px-8 native:h-14',
         icon: 'h-10 w-10',
       },
@@ -57,25 +64,56 @@ const buttonTextVariants = cva(
   }
 );
 
-type ButtonProps = React.ComponentProps<typeof Pressable> & VariantProps<typeof buttonVariants>;
+type ButtonProps = React.ComponentProps<typeof Pressable> &
+  VariantProps<typeof buttonVariants> & {
+    style?: ViewStyle;
+    children?: React.ReactNode;
+  };
 
-function Button({ ref, className, variant, size, ...props }: ButtonProps) {
+function Button({
+  className,
+  variant,
+  size,
+  style,
+  children,
+  ...props
+}: ButtonProps) {
+  const { moderateScale, moderateVerticalScale } = useResponsive();
+  const colorScheme = useColorScheme(); // 'light' | 'dark'
+
+  const responsiveStyles: ViewStyle = {
+    paddingHorizontal: moderateScale(16),
+    height:
+      size === 'sm'
+        ? moderateVerticalScale(40)
+        : size === 'lg'
+        ? moderateVerticalScale(56)
+        : moderateVerticalScale(48),
+  };
+
+  const textClass = buttonTextVariants({ variant, size });
+
   return (
-    <TextClassContext.Provider
-      value={buttonTextVariants({ variant, size, className: 'web:pointer-events-none' })}
+    <Pressable
+      className={cn(
+        props.disabled && 'opacity-50 web:pointer-events-none',
+        buttonVariants({ variant, size, className }),
+        colorScheme === 'dark' && 'dark'
+      )}
+      style={[responsiveStyles, style]}
+      {...props}
     >
-      <Pressable
-        className={cn(
-          props.disabled && 'opacity-50 web:pointer-events-none',
-          buttonVariants({ variant, size, className })
+      <TextClassContext.Provider value={textClass}>
+        {typeof children === 'string' ? (
+          <Text className={textClass}>{children}</Text>
+        ) : (
+          children
         )}
-        ref={ref}
-        role='button'
-        {...props}
-      />
-    </TextClassContext.Provider>
+      </TextClassContext.Provider>
+    </Pressable>
   );
 }
 
 export { Button, buttonTextVariants, buttonVariants };
 export type { ButtonProps };
+

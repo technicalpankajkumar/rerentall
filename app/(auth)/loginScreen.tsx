@@ -1,17 +1,18 @@
 import { useLoginMutation } from '@/api';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { useFormik } from 'formik';
-import { Eye, EyeOff, Lock, Mail, MessageCircle } from 'lucide-react-native';
+import { Lock, Mail, MessageCircle } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import { useEffect, useState } from 'react';
 import {
   Alert,
   ScrollView,
-  Text,
-  TextInput,
   TouchableOpacity,
   useWindowDimensions,
   View,
@@ -46,20 +47,20 @@ export default function SignInScreen() {
   }, []);
 
   // auto login
-//   useEffect(() => {
-//   (async () => {
-//     const savedEmail = await AsyncStorage.getItem('rememberedEmail');
-//     const savedPassword = await SecureStore.getItemAsync('rememberedPassword');
-//     if (savedEmail && savedPassword) {
-//       try {
-//         await login({ email: savedEmail, password: savedPassword }).unwrap();
-//         router.replace('/(renter)/home');
-//       } catch (e) {
-//         console.log("Auto-login failed");
-//       }
-//     }
-//   })();
-// }, []);
+  //   useEffect(() => {
+  //   (async () => {
+  //     const savedEmail = await AsyncStorage.getItem('rememberedEmail');
+  //     const savedPassword = await SecureStore.getItemAsync('rememberedPassword');
+  //     if (savedEmail && savedPassword) {
+  //       try {
+  //         await login({ email: savedEmail, password: savedPassword }).unwrap();
+  //         router.replace('/(renter)/home');
+  //       } catch (e) {
+  //         console.log("Auto-login failed");
+  //       }
+  //     }
+  //   })();
+  // }, []);
 
   const formik = useFormik({
     initialValues: { email: '', password: '' },
@@ -107,50 +108,30 @@ export default function SignInScreen() {
         {/* Form */}
         <View className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg">
           {/* Email */}
-          <View className="flex-row items-center border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-3 bg-gray-50 dark:bg-gray-800 mb-2">
-            <Mail size={20} color={isDark ? '#9ca3af' : '#6b7280'} />
-            <TextInput
-              className="flex-1 ml-3 text-gray-800 dark:text-white"
-              placeholder="email@example.com"
-              placeholderTextColor="#9ca3af"
-              value={formik.values.email}
-              onChangeText={formik.handleChange('email')}
-              onBlur={formik.handleBlur('email')}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
-          {formik.touched.email && formik.errors.email && (
-            <Text className="text-red-500 text-sm mb-2 ml-1">
-              {formik.errors.email}
-            </Text>
-          )}
-
+          <Input
+            size='md'
+            prefix={<Mail size={20} color={isDark ? '#9ca3af' : '#6b7280'} />}
+            placeholder="email@example.com"
+            placeholderTextColor="#9ca3af"
+            value={formik.values.email}
+            onChangeText={formik.handleChange('email')}
+            onBlur={formik.handleBlur('email')}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            error={formik.touched.email && formik.errors.email}
+          />
           {/* Password */}
-          <View className="flex-row items-center border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-3 bg-gray-50 dark:bg-gray-800 mb-2">
-            <Lock size={20} color={isDark ? '#9ca3af' : '#6b7280'} />
-            <TextInput
-              className="flex-1 ml-3 text-gray-800 dark:text-white"
-              placeholder="Password"
-              placeholderTextColor="#9ca3af"
-              value={formik.values.password}
-              onChangeText={formik.handleChange('password')}
-              onBlur={formik.handleBlur('password')}
-              secureTextEntry={!showPassword}
-            />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              {showPassword ? (
-                <EyeOff size={20} color={isDark ? '#9ca3af' : '#6b7280'} />
-              ) : (
-                <Eye size={20} color={isDark ? '#9ca3af' : '#6b7280'} />
-              )}
-            </TouchableOpacity>
-          </View>
-          {formik.touched.password && formik.errors.password && (
-            <Text className="text-red-500 text-sm mb-4 ml-1">
-              {formik.errors.password}
-            </Text>
-          )}
+          <Input
+            prefix={<Lock size={20} color={isDark ? '#9ca3af' : '#6b7280'} />}
+            placeholder="Password"
+            placeholderTextColor="#9ca3af"
+            value={formik.values.password}
+            onChangeText={formik.handleChange('password')}
+            onBlur={formik.handleBlur('password')}
+            error={formik.touched.password && formik.errors.password}
+            secureToggle
+            secureTextEntry
+          />
 
           {/* Remember Me & Biometric */}
           <View className="flex-1 justify-between py-4">
@@ -178,15 +159,11 @@ export default function SignInScreen() {
           </View>
 
           {/* Submit Button */}
-          <TouchableOpacity
-            onPress={formik.handleSubmit}
-            disabled={isLoading}
-            className="bg-indigo-600 rounded-xl py-4 items-center mb-4"
-          >
-            <Text className="text-white text-base font-semibold">
-              {isLoading ? 'Signing In...' : 'Sign In'}
-            </Text>
-          </TouchableOpacity>
+          <Button onPress={formik.handleSubmit}
+            disabled={isLoading} variant="default" size="sm">
+            {isLoading ? 'Signing In...' : 'Sign In'}
+          </Button>
+
         </View>
       </ScrollView>
     </LinearGradient>

@@ -1,25 +1,86 @@
 import { cn } from 'lib/utils';
-import * as React from 'react';
-import { TextInput, type TextInputProps } from 'react-native';
+import { Eye, EyeOff } from 'lucide-react-native';
+import React, { forwardRef, useState } from 'react';
+import {
+  Pressable,
+  Text,
+  TextInput,
+  TextInputProps,
+  View,
+} from 'react-native';
 
-function Input({
+type InputSize = 'xs' | 'sm' | 'md' | 'lg';
+
+type CustomInputProps = TextInputProps & {
+  size?: InputSize;
+  prefix?: React.ReactNode;
+  postfix?: React.ReactNode;
+  secureToggle?: boolean;
+  error?: string | boolean;
+  className?: string;
+  placeholderClassName?: string;
+};
+
+export const Input = forwardRef<TextInput, CustomInputProps>(({
+  size = 'md',
+  prefix,
+  postfix,
+  secureToggle = false,
+  error = false,
   className,
   placeholderClassName,
+  secureTextEntry,
   ...props
-}: TextInputProps & {
-  ref?: React.RefObject<TextInput>;
-}) {
-  return (
-    <TextInput
-      className={cn(
-        'web:flex h-10 native:h-14 web:w-full rounded-md border border-input bg-background px-3 web:py-2 text-base lg:text-sm native:text-lg native:leading-[1.25] text-foreground placeholder:text-muted-foreground web:ring-offset-background file:border-0 file:bg-transparent file:font-medium web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2',
-        props.editable === false && 'opacity-50 web:cursor-not-allowed',
-        className
-      )}
-      placeholderClassName={cn('text-muted-foreground', placeholderClassName)}
-      {...props}
-    />
-  );
-}
+}, ref) => {
+  const [isSecure, setIsSecure] = useState(secureTextEntry ?? false);
 
-export { Input };
+  const sizeStyles = {
+    xs: 'h-8 px-2 text-xs',
+    sm: 'h-10 px-3 text-sm',
+    md: 'h-12 px-4 text-base',
+    lg: 'h-14 px-4 text-lg',
+  };
+
+  const borderColor = error ? 'border-red-500' : 'border-input';
+
+  return (
+    <View className="w-full">
+      <View
+        className={cn(
+          'flex-row items-center rounded-md border bg-background',
+          sizeStyles[size],
+          borderColor,
+          props.editable === false && 'opacity-50',
+          className
+        )}
+      >
+        {prefix && <View className="mr-2">{prefix}</View>}
+
+        <TextInput
+          ref={ref}
+          secureTextEntry={isSecure}
+          placeholderTextColor="gray"
+          className={cn(
+            'flex-1 text-foreground',
+            placeholderClassName
+          )}
+          {...props}
+        />
+
+        {secureToggle && (
+          <Pressable onPress={() => setIsSecure(prev => !prev)} className="ml-2">
+            {isSecure ? <EyeOff size={20} /> : <Eye size={20} />}
+          </Pressable>
+        )}
+
+        {postfix && <View className="ml-2">{postfix}</View>}
+      </View>
+
+      {error && typeof error === 'string' && (
+        <Text className="text-xs text-red-500 mt-1">{error}</Text>
+      )}
+    </View>
+  );
+});
+
+Input.displayName = 'Input';
