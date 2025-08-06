@@ -64,31 +64,50 @@ const buttonTextVariants = cva(
   }
 );
 
+type radiusTypes = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 type ButtonProps = React.ComponentProps<typeof Pressable> &
   VariantProps<typeof buttonVariants> & {
     style?: ViewStyle;
     children?: React.ReactNode;
+    radius?: radiusTypes
   };
 
 function Button({
   className,
   variant,
   size,
+  radius = 'md',
   style,
   children,
   ...props
 }: ButtonProps) {
-  const { moderateScale, moderateVerticalScale } = useResponsive();
+  const { moderateScale, moderateVerticalScale, scale } = useResponsive();
   const colorScheme = useColorScheme(); // 'light' | 'dark'
 
+  let selectRadius = (size: radiusTypes) => {
+    switch (size) {
+      case 'sm':
+        return scale(6)
+      case 'md':
+        return scale(8)
+      case 'lg':
+        return scale(10)
+      case 'xl':
+        return scale(12)
+      default:
+        return scale(4)
+    }
+
+  }
   const responsiveStyles: ViewStyle = {
     paddingHorizontal: moderateScale(16),
     height:
       size === 'sm'
         ? moderateVerticalScale(40)
         : size === 'lg'
-        ? moderateVerticalScale(56)
-        : moderateVerticalScale(48),
+          ? moderateVerticalScale(56)
+          : moderateVerticalScale(48),
+    borderRadius: selectRadius(radius)
   };
 
   const textClass = buttonTextVariants({ variant, size });

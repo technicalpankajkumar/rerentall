@@ -2,16 +2,17 @@ import { useLoginMutation } from '@/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
+import { useColorScheme } from '@/lib/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { useFormik } from 'formik';
 import { Lock, Mail, MessageCircle } from 'lucide-react-native';
-import { useColorScheme } from 'nativewind';
 import { useEffect, useState } from 'react';
 import {
   Alert,
+  Image,
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
@@ -24,8 +25,7 @@ export default function SignInScreen() {
   const [rememberMe, setRememberMe] = useState(false);
   const { width } = useWindowDimensions();
   const isTabletOrWeb = width > 768;
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const {isDarkColorScheme} = useColorScheme()
 
   const router = useRouter();
   const [login, { isLoading }] = useLoginMutation();
@@ -87,30 +87,63 @@ export default function SignInScreen() {
 
   return (
     <LinearGradient
-      colors={isDark ? ['#0f172a', '#1e293b'] : ['#f8fafc', '#e2e8f0']}
+      colors={isDarkColorScheme ? ['#0f172a', '#1e293b'] : ['#ffffff', '#ffffff']}
       className="flex-1"
     >
+      {/* Decorative Circles */}
+            <View className="absolute w-full h-full">
+              <View className="absolute bg-slate-100 rounded-full w-5 h-5 top-[15%] left-[20%]" />
+              <View className="absolute bg-slate-100 rounded-full w-2 h-2 top-[25%] right-[15%]" />
+              <View className="absolute bg-slate-100 rounded-full w-4 h-4 top-[5%] left-[5%]" />
+              <View className="absolute bg-slate-100 rounded-full w-2 h-2 top-[5%] right-[5%]" />
+              <View className="absolute bg-slate-100 rounded-full w-2 h-2 top-[10%] right-[10%]" />
+              <View className="absolute bg-slate-100 rounded-full w-3 h-3 top-[60%] left-[10%]" />
+              <View className="absolute bg-slate-100 rounded-full w-4 h-4 bottom-[20%] right-[25%]" />
+              <View className="absolute bg-slate-100 rounded-full w-1.5 h-1.5 bottom-[35%] left-[25%]" />
+              <View className="absolute bg-slate-100 rounded-full w-1.5 h-1.5 bottom-[25%] left-[25%]" />
+              <View className="absolute bg-slate-100 rounded-full w-2.5 h-2.5 bottom-[35%] left-[35%]" />
+              <View className="absolute bg-slate-100 rounded-full w-1 h-1 bottom-[5%] left-[15%]" />
+              <View className="absolute bg-slate-100 rounded-full w-4.5 h-4.5 bottom-[45%] left-[25%]" />
+              <View className="absolute bg-slate-100 rounded-full w-5.5 h-5.5 bottom-[55%] left-[15%]" />
+
+              <View className="absolute bg-slate-100 rounded-full w-5 h-5 bottom-[15%] right-[20%]" />
+              <View className="absolute bg-slate-100 rounded-full w-2 h-2 bottom-[25%] left-[15%]" />
+              <View className="absolute bg-slate-100 rounded-full w-4 h-4 bottom-[5%] right-[5%]" />
+              <View className="absolute bg-slate-100 rounded-full w-2 h-2 bottom-[5%] left-[5%]" />
+              <View className="absolute bg-slate-100 rounded-full w-2 h-2 bottom-[10%] left-[10%]" />
+              <View className="absolute bg-slate-100 rounded-full w-3 h-3 bottom-[40%] right-[10%]" />
+              <View className="absolute bg-slate-100 rounded-full w-4 h-4 top-[10%] left-[25%]" />
+              <View className="absolute bg-slate-100 rounded-full w-1.5 h-1.5 top-[35%] right-[25%]" />
+              <View className="absolute bg-slate-100 rounded-full w-1.5 h-1.5 top-[25%] right-[25%]" />
+              <View className="absolute bg-slate-100 rounded-full w-2.5 h-2.5 top-[15%] right-[35%]" />
+              <View className="absolute bg-slate-100 rounded-full w-1 h-1 top-[5%] right-[15%]" />
+              <View className="absolute bg-slate-100 rounded-full w-4.5 h-4.5 top-[45%] right-[25%]" />
+              <View className="absolute bg-slate-100 rounded-full w-5.5 h-5.5 top-[55%] right-[15%]" />
+            </View>
       <ScrollView contentContainerClassName="flex-grow px-6 pt-20 pb-8">
         {/* Header */}
-        <View className="items-center mb-8">
+        <View className="items-center mb-4">
           <View className="w-16 h-16 bg-white dark:bg-gray-800 rounded-xl justify-center items-center shadow">
-            <MessageCircle size={32} color={isDark ? '#facc15' : '#4F46E5'} />
+            <MessageCircle size={32} color={isDarkColorScheme ? '#facc15' : '#4F46E5'} />
           </View>
-          <Text className="text-xl font-bold text-gray-900 dark:text-white mt-4">
-            Sign in to Freedcamp Chat
+          <Text className="font-bold mt-4 mb-0.5" size='xl'>
+            Sign in to Re-Rental Dicovery
           </Text>
-          <Text className="text-base text-gray-600 dark:text-gray-400">
+          <View className='flex-row gap-1 items-center'>
+            <Text className="font-semibold" size='md'>
             First time here?
-            <Text className="text-indigo-600 font-semibold"> Sign Up</Text>
           </Text>
+            <Text className="text-indigo-600 font-semibold" size='md'> Sign Up</Text>
+          </View>
         </View>
 
         {/* Form */}
-        <View className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg">
-          {/* Email */}
+        <View className="px-2 py-6 gap-2">
           <Input
             size='md'
-            prefix={<Mail size={20} color={isDark ? '#9ca3af' : '#6b7280'} />}
+            label='Email'
+            radius='lg'
+            prefix={<Mail size={20} color={isDarkColorScheme ? '#9ca3af' : '#6b7280'} />}
             placeholder="email@example.com"
             placeholderTextColor="#9ca3af"
             value={formik.values.email}
@@ -120,9 +153,10 @@ export default function SignInScreen() {
             autoCapitalize="none"
             error={formik.touched.email && formik.errors.email}
           />
-          {/* Password */}
           <Input
-            prefix={<Lock size={20} color={isDark ? '#9ca3af' : '#6b7280'} />}
+            label='Password'
+            radius='lg'
+            prefix={<Lock size={20} color={isDarkColorScheme ? '#9ca3af' : '#6b7280'} />}
             placeholder="Password"
             placeholderTextColor="#9ca3af"
             value={formik.values.password}
@@ -134,20 +168,20 @@ export default function SignInScreen() {
           />
 
           {/* Remember Me & Biometric */}
-          <View className="flex-1 justify-between py-4">
+          <View className="flex-1 justify-between py-2">
             <TouchableOpacity
               className="flex-row items-center"
               onPress={() => setRememberMe(!rememberMe)}
               activeOpacity={0.7}
             >
               <View
-                className={`w-5 h-5 border border-gray-300 dark:border-gray-600 rounded mr-2 items-center justify-center ${rememberMe ? 'bg-indigo-600' : 'bg-transparent'
+                className={`w-5 h-5  rounded mr-2 items-center justify-center ${rememberMe ? 'bg-primary' : 'border border-gray-300 dark:border-gray-600 bg-transparent'
                   }`}
               >
-                {rememberMe && <Text className="text-white text-xs">✓</Text>}
+                {rememberMe && <Text className="text-white" size='md'>✓</Text>}
               </View>
-              <Text className="text-gray-600 dark:text-gray-300 text-sm">
-                Remember Me
+              <Text className="text-gray-600 dark:text-gray-300" size='md'>
+                Remember me password
               </Text>
             </TouchableOpacity>
             {/* <View className="flex-row items-center">
@@ -163,6 +197,32 @@ export default function SignInScreen() {
             disabled={isLoading} variant="default" size="sm">
             {isLoading ? 'Signing In...' : 'Sign In'}
           </Button>
+
+          <View className="w-full items-center mt-6">
+            {/* Divider */}
+            <View className="flex-row items-center w-full mb-4 px-4">
+              <View className="flex-1 h-px bg-gray-300" />
+              <Text className="mx-3 text-gray-500" size='md'>or sign in with</Text>
+              <View className="flex-1 h-px bg-gray-300" />
+            </View>
+
+            {/* Social Buttons */}
+            <View className="flex-row space-x-4 gap-4">
+              {[
+                { icon: <Image source={require('@assets/icons/google.png')} resizeMode="cover" className='h-8 w-8'/>, key: 'google' }, // Replace GanttChart with Google icon 
+                { icon: <Image source={require('@assets/icons/facebook.png')} resizeMode="cover" className='h-8 w-8'/>, key: 'facebook' },
+              ].map(({ icon, key }) => (
+                <TouchableOpacity
+                  key={key}
+                  className="w-12 h-12 rounded-xl border border-gray-200 bg-white justify-center items-center"
+                  onPress={() => console.log(`Sign in with ${key}`)}
+                  style={{elevation:1}}
+                >
+                  {icon}
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
 
         </View>
       </ScrollView>
