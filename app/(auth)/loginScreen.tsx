@@ -87,7 +87,7 @@ export default function SignInScreen() {
 
   return (
     <LinearGradient
-      colors={isDarkColorScheme ? ['#0f172a', '#1e293b'] : ['#ffffff', '#ffffff']}
+      colors={isDarkColorScheme ?['#1f2937', '#111827'] : ['#f8fafc', '#e2e8f0', '#cbd5e1']}
       className="flex-1"
     >
       {/* Decorative Circles */}
@@ -133,7 +133,7 @@ export default function SignInScreen() {
             <Text className="font-semibold" size='md'>
             First time here?
           </Text>
-            <Text className="text-indigo-600 font-semibold" size='md'> Sign Up</Text>
+            <Text className="text-indigo-600 font-semibold" size='md' onPress={()=>router.push('/(auth)/registerScreen')}> Sign Up</Text>
           </View>
         </View>
 
@@ -175,7 +175,7 @@ export default function SignInScreen() {
               activeOpacity={0.7}
             >
               <View
-                className={`w-5 h-5  rounded mr-2 items-center justify-center ${rememberMe ? 'bg-primary' : 'border border-gray-300 dark:border-gray-600 bg-transparent'
+                className={`w-5 h-5  rounded mr-2 items-center justify-center ${rememberMe ? 'bg-primary' : 'border border-slate-500 dark:border-slate-600 bg-transparent'
                   }`}
               >
                 {rememberMe && <Text className="text-white" size='md'>✓</Text>}
