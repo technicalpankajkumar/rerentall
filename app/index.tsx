@@ -26,7 +26,7 @@ export default function Index() {
         // Check onboarding
         const hasSeenOnboarding = await AsyncStorage.getItem('hasSeenOnboarding');
 
-        if (!hasSeenOnboarding) {
+        if (hasSeenOnboarding) {
           return router.replace('/(onboarding)');
         }
 

@@ -1,7 +1,9 @@
+import DecoratorCircle from '@/components/utility/DecoratorCircle';
+import { useColorScheme } from '@/lib/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { ArrowRight, ChevronRight, Home, Palette, Sparkles } from 'lucide-react-native';
+import { ArrowRight, ChevronRight, Home, Palette, SkipForward, Sparkles } from 'lucide-react-native';
 import React, { useRef, useState } from 'react';
 import {
   Dimensions,
@@ -28,9 +30,8 @@ const onboardingData = [
     subtitle: 'With AI Magic',
     description:
       'AI can effortlessly redesign your space, enhancing aesthetics and functionality with smart, personalized recommendations.',
-    icon: <Sparkles size={32} color="#FF6B35" />,
-    mockupImage:
-      'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=400',
+    icon: <Sparkles size={32} color="#FFFFFF" />,
+    mockupImage: require('@assets/images/homeui.jpg'),
     gradient: ['#FFF5F0', '#FFE8D6'],
   },
   {
@@ -39,9 +40,8 @@ const onboardingData = [
     subtitle: 'Dream Design',
     description:
       'Achieve your dream design by gathering inspiration, sketching ideas, refining details, selecting materials, and perfecting.',
-    icon: <Palette size={32} color="#FF6B35" />,
-    mockupImage:
-      'https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=400',
+    icon: <Palette size={32} color="#FFFFFF" />,
+    mockupImage:require('@assets/images/detailui.jpg'),
     gradient: ['#F0F8FF', '#E6F3FF'],
   },
   {
@@ -50,9 +50,8 @@ const onboardingData = [
     subtitle: 'Design Possibilities',
     description:
       'Homestyler is a powerful 3D design platform that provides endless creative possibilities for stunning interior designs.',
-    icon: <Home size={32} color="#FF6B35" />,
-    mockupImage:
-      'https://images.pexels.com/photos/1571453/pexels-photo-1571453.jpeg?auto=compress&cs=tinysrgb&w=400',
+    icon: <Home size={32} color="#FFFFFF" />,
+    mockupImage:require('@assets/images/exploreui.jpg'),
     gradient: ['#FFF0F5', '#FFE4E1'],
   },
 ];
@@ -60,6 +59,7 @@ const onboardingData = [
 export default function OnboardingScreen() {
   const scrollViewRef = useRef<ScrollView>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const {isDarkColorScheme}= useColorScheme()
 
   const handleNext = () => {
     if (currentIndex < onboardingData.length - 1) {
@@ -85,7 +85,11 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <View className="flex-1 bg-white">
+   <LinearGradient
+      colors={isDarkColorScheme ?['#1f2937', '#111827'] : ['#f8fafc', '#e2e8f0', '#cbd5e1']}
+      className="flex-1"
+    >
+      <DecoratorCircle/>
       <ScrollView
         ref={scrollViewRef}
         horizontal
@@ -101,26 +105,26 @@ export default function OnboardingScreen() {
               entering={FadeIn.duration(300)}
               exiting={FadeOut.duration(300)}
               layout={LinearTransition.springify()}
-              className="items-center justify-center"
+              className="items-center justify-center relative pb-12"
             >
               {/* Mockup Phone */}
-              <View className="w-[85%] aspect-[9/16] bg-black rounded-3xl p-1 shadow-2xl mb-6">
-                <View className="absolute top-2 left-1/2 -ml-14 w-28 h-5 bg-black rounded-full z-10" />
-                <LinearGradient
+              <View className="w-[75%] aspect-[7/16] bg-black/90 rounded-3xl p-1.5 shadow-2xl mb-6 ">
+                <View className="absolute top-2 left-1/2 -ml-14 w-28 h-4 bg-black rounded-full z-10" />
+                {/* <LinearGradient
                   colors={slide.gradient}
                   className="flex-1 rounded-[26px] overflow-hidden p-4"
-                >
+                > */}
                   <Image
-                    source={{ uri: slide.mockupImage }}
+                    source={slide.mockupImage}
                     className="w-full h-full rounded-2xl"
                     resizeMode="cover"
                   />
-                </LinearGradient>
+                {/* </LinearGradient> */}
               </View>
 
               {/* Slide Text */}
-              <View className="items-center px-4">
-                <View className="w-16 h-16 rounded-full bg-orange-100 justify-center items-center mb-6">
+              <View className="items-center px-4 bg-white rounded-r-3xl rounded-l-3xl p-2 absolute -bottom-6">
+                <View className="w-16 h-16 rounded-full bg-primary justify-center items-center mb-4">
                   {slide.icon}
                 </View>
                 <Text className="text-2xl font-bold text-gray-800 text-center mb-1">{slide.title}</Text>
@@ -133,25 +137,29 @@ export default function OnboardingScreen() {
       </ScrollView>
 
       {/* Page Indicators */}
-      <View className="flex-row justify-center items-center py-4 space-x-2">
+      {/* <View className="flex-row justify-center items-center py-4 space-x-2">
         {onboardingData.map((_, index) => (
           <View
             key={index}
             className={`h-2 rounded-full ${index === currentIndex ? 'w-6 bg-orange-500' : 'w-2 bg-gray-300'}`}
           />
         ))}
-      </View>
+      </View> */}
 
       {/* Bottom Actions */}
-      <View className="flex-row justify-between items-center px-6 pb-10">
-        <TouchableOpacity onPress={handleSkip}>
-          <Text className="text-gray-500 text-base font-medium">Skip</Text>
-        </TouchableOpacity>
+      <View className="flex-row justify-between items-center px-6 pb-6">
+        <TouchableOpacity
+            onPress={handleSkip}
+            className="flex-row items-center bg-primary gap-2 py-2 px-3 rounded-full space-x-2"
+          >
+            <Text className="text-white text-base font-semibold">Skip</Text>
+            <SkipForward size={20} color="#ffffff" />
+          </TouchableOpacity>
 
         {currentIndex < onboardingData.length - 1 ? (
           <TouchableOpacity
             onPress={handleNext}
-            className="flex-row items-center bg-orange-500 py-3 px-6 rounded-full space-x-2"
+            className="flex-row items-center bg-primary py-2 px-3 rounded-full space-x-2"
           >
             <Text className="text-white text-base font-semibold">Continue</Text>
             <ChevronRight size={20} color="#ffffff" />
@@ -159,13 +167,13 @@ export default function OnboardingScreen() {
         ) : (
           <TouchableOpacity
             onPress={handleGetStarted}
-            className="flex-row items-center bg-orange-500 py-3 px-6 rounded-full space-x-2"
+            className="flex-row items-center bg-primary py-2 px-3 rounded-full space-x-2"
           >
             <Text className="text-white text-base font-semibold">Let's Get Started</Text>
             <ArrowRight size={20} color="#ffffff" />
           </TouchableOpacity>
         )}
       </View>
-    </View>
+    </LinearGradient>
   );
 }
