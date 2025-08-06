@@ -68,7 +68,7 @@ export function PropertyCard({ property, onPress, style, horizontal = false }: P
               </TouchableOpacity>
             </View>
             <Text className="font-semibold  mb-0.5" numberOfLines={1} size={'sm'}>{property.title}</Text>
-            <Text className=" text-gray-500 dark:text-text mb-2" numberOfLines={1} size={'xs'} >{property.location}</Text>
+            <Text className=" text-gray-500 dark:text-text mb-1.5" numberOfLines={1} size={'sm'} >{property.location}</Text>
             <Text className="font-bold "size={'sm'}>${property.price}/Month</Text>
           </View>
         </TouchableOpacity>

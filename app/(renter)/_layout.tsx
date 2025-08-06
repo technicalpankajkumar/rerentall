@@ -1,6 +1,6 @@
 import { useColorScheme } from "@/lib/useColorScheme";
 import { Tabs } from "expo-router";
-import { House, MessageCircle, Settings, User } from "lucide-react-native";
+import { CircleUserRound, House, MessageCircle, ScanSearch } from "lucide-react-native";
 
 const RentalLayout = () => {
   const {isDarkColorScheme} = useColorScheme()
@@ -19,7 +19,7 @@ const RentalLayout = () => {
         tabBarInactiveTintColor: isDarkColorScheme ? "#FFFFFF" : "#9CA3AF",
         tabBarLabelStyle: {
           fontSize: 12,
-          fontWeight: "600",
+          fontWeight: "400",
         },
       }}
     >
@@ -28,16 +28,16 @@ const RentalLayout = () => {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <House color={color} size={size} strokeWidth={2} />
+            <House color={color} size={size} strokeWidth={1} />
           ),
         }}
       />
       <Tabs.Screen
-        name="saved"
+        name="explore"
         options={{
-          title: "Saved",
+          title: "Explore",
           tabBarIcon: ({ color, size }) => (
-            <User color={color} size={size} strokeWidth={2} />
+            <ScanSearch color={color} size={size} strokeWidth={1} />
           ),
         }}
       />
@@ -46,7 +46,7 @@ const RentalLayout = () => {
         options={{
           title: 'Chat',
           tabBarIcon: ({ color, size }) => (
-            <MessageCircle color={color} size={size} strokeWidth={2} />
+            <MessageCircle color={color} size={size} strokeWidth={1} />
           ),
         }}
       />
@@ -55,7 +55,7 @@ const RentalLayout = () => {
         options={{
           title: "Setting",
           tabBarIcon: ({ color, size }) => (
-            <Settings color={color} size={size} strokeWidth={2} />
+            <CircleUserRound color={color} size={size} strokeWidth={1} />
           ),
         }}
       />

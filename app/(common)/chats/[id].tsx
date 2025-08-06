@@ -144,24 +144,21 @@ export default function ChatScreen() {
       className={`my-1 px-1 ${item.isFromUser ? 'items-end' : 'items-start'}`}
     >
       <View
-        className={`max-w-[80%] px-4 py-2.5 rounded-[18px] ${
-          item.isFromUser
+        className={`max-w-[80%] px-4 py-2.5 rounded-[18px] ${item.isFromUser
             ? 'bg-blue-500 dark:bg-blue-600 rounded-br-sm'
             : 'bg-white dark:bg-neutral-800 rounded-bl-sm'
-        }`}
+          }`}
       >
         <Text
-          className={`leading-5 mb-1 ${
-            item.isFromUser ? 'text-white' : 'text-black dark:text-white'
-          }`}
+          className={`leading-5 mb-1 ${item.isFromUser ? 'text-white' : 'text-black dark:text-white'
+            }`}
           size='md'
         >
           {item.text}
         </Text>
         <Text
-          className={`self-end ${
-            item.isFromUser ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
-          }`}
+          className={`self-end ${item.isFromUser ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
+            }`}
           size='sm'
         >
           {item.timestamp}
@@ -223,34 +220,22 @@ export default function ChatScreen() {
       />
 
       <View className="bg-white dark:bg-neutral-900 px-4 py-3 border-t border-gray-200 dark:border-gray-700">
-        <View className="flex-row items-center bg-gray-100 dark:bg-slate-800 rounded-full px-3">
-          <TouchableOpacity className="mr-2 mb-1">
-            <Smile size={24} color="#8E8E93" />
-          </TouchableOpacity>
-          <Input
-            className="flex-1 text-black dark:text-white max-h-[100px] min-h-[24px] bg-slate-800"
-            placeholder="Type messages..."
-            placeholderTextColor="#999"
-            value={newMessage}
-            onChangeText={setNewMessage}
-            multiline
-            maxLength={500}
-          />
-          <TouchableOpacity
-            className={`ml-2 p-2 rounded-full ${
-              newMessage.trim() ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-700'
-            }`}
-            onPress={sendMessage}
-            disabled={!newMessage.trim()}
-          >
-            <Send
-              size={20}
-              color={newMessage.trim() ? '#FFFFFF' : '#8E8E93'}
-            />
-          </TouchableOpacity>
-        </View>
+        <Input
+          radius='xl'
+          prefix={<Smile size={24} color="#8E8E93" />}
+          placeholder="Type messages..."
+          placeholderTextColor="#999"
+          value={newMessage}
+          onChangeText={setNewMessage}
+          multiline
+          maxLength={500}
+          postfix={<Send
+            size={20}
+            color={newMessage.trim() ? '#FFFFFF' : '#8E8E93'}
+          />}
+        />
       </View>
-{/* 
+      {/* 
       <ActionSheet visible={showActions} onClose={closeActionSheet} title="Message Actions">
         <MessageActionsSheet
           onReact={() => {

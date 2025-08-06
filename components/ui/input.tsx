@@ -54,7 +54,7 @@ export const Input = forwardRef<TextInput, CustomInputProps>(({
   const borderColor = error
     ? 'border-red-500'
     : isFocused
-      ? 'border-primary border-2'
+      ? 'border-primary'
       : 'border-input';
 
   const labelPosition = isFocused || props.value ? '-top-2 ' : 'top-2 text-muted-foreground';

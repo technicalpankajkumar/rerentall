@@ -28,7 +28,7 @@ export default function TabLayout() {
             textTransform: 'none',
           },
           tabBarStyle: {
-            backgroundColor: isDarkColorScheme ? "#1e293b" :'#F2F2F2',
+            // backgroundColor: isDarkColorScheme ? "#1e293b" :'#F2F2F2',
             elevation: 0,
             shadowOpacity: 0,
             borderBottomWidth: 1,
