@@ -167,7 +167,7 @@ export default function SignInScreen() {
 
           {/* Submit Button */}
           <Button onPress={formik.handleSubmit}
-            disabled={isLoading} variant="default" size="sm">
+            disabled={isLoading} variant="default" size="sm" style={{elevation:1}}>
             {isLoading ? 'Signing In...' : 'Sign In'}
           </Button>
 

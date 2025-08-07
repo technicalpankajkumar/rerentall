@@ -209,7 +209,7 @@ export default function SignUpScreen() {
 
           {/* Submit */}
           <Button onPress={()=>router.push('/(renter)/home')}
-            disabled={isLoading} variant="default" size="sm">
+            disabled={isLoading} variant="default" size="sm" style={{elevation:1}}>
             {isLoading ? 'Signup In...' : 'Sign Up'}
           </Button>
 

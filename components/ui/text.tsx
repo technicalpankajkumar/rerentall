@@ -11,12 +11,12 @@ const fontSizeMap: Record<
   'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl',
   number
 > = {
-  xs: 8,
-  sm: 10,
-  md: 12,
-  lg: 14,
+  xs: 10,
+  sm: 12,
+  md: 14,
+  lg: 15,
   xl: 16,
-  xxl: 20,
+  xxl: 18,
 };
 
 type TextProps = React.ComponentProps<typeof RNText> & {

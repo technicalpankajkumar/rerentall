@@ -2,13 +2,14 @@ import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ArrowLeft, MoveVertical as MoreVertical, Phone, Send, Smile, Video } from 'lucide-react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   FlatList,
-  Image,
+  Image, Keyboard, KeyboardAvoidingView,
+  Platform,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 // import ActionSheet from '@/components/ActionSheet';
 // import ReactionPicker from '@/components/ReactionPicker';
@@ -63,11 +64,20 @@ export default function ChatScreen() {
   const [selectedMessage, setSelectedMessage] = useState<string | null>(null);
   const [showReactions, setShowReactions] = useState(false);
   const [showActions, setShowActions] = useState(false);
-
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const doctorName = params.doctorName as string;
+
   const avatar = params.avatar as string;
   const isOnline = params.isOnline === 'true';
 
+  useEffect(() => {
+    const showSub = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardOpen(true));
+    const hideSub = Keyboard.addListener('keyboardDidHide', () => setIsKeyboardOpen(false));
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
   const sendMessage = () => {
     if (newMessage.trim()) {
       const message: Message = {
@@ -174,9 +184,18 @@ export default function ChatScreen() {
         </View>
       )}
     </TouchableOpacity>
-  );
+  );1
 
   return (
+    <KeyboardAvoidingView
+    
+    style={{ flex: 1 }}
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={ isKeyboardOpen
+          ? (Platform.OS === 'ios' ? 80 : 30) // Offset when keyboard is open
+          : 0 // Offset when keyboard is closed
+    } // adjust offset as needed
+  >
     <View className="flex-1 bg-gray-100 dark:bg-black">
       <View className="flex-row items-center px-4 py-3 bg-white dark:bg-neutral-900 border-b border-gray-200 dark:border-gray-700">
         <TouchableOpacity onPress={() => router.back()} className="mr-3">
@@ -203,14 +222,12 @@ export default function ChatScreen() {
           </TouchableOpacity>
         </View>
       </View>
-
-      <View className="items-center py-4">
+      <FlatList
+         ListHeaderComponent={<View className="items-center py-4">
         <Text className=" text-gray-500 dark:text-gray-400 bg-white dark:bg-neutral-800 px-3 py-1 rounded-full" size='sm'>
           Today, December 20
         </Text>
-      </View>
-
-      <FlatList
+      </View>}
         data={messages}
         renderItem={renderMessage}
         keyExtractor={(item) => item.id}
@@ -218,8 +235,7 @@ export default function ChatScreen() {
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}
         showsVerticalScrollIndicator={false}
       />
-
-      <View className="bg-white dark:bg-neutral-900 px-4 py-3 border-t border-gray-200 dark:border-gray-700">
+        <View className="bg-white dark:bg-neutral-900 px-4 pt-1 pb-3 border-t border-gray-200 dark:border-gray-700">
         <Input
           radius='xl'
           prefix={<Smile size={24} color="#8E8E93" />}
@@ -229,9 +245,7 @@ export default function ChatScreen() {
           onChangeText={setNewMessage}
           multiline
           maxLength={500}
-          postfix={<Send
-            size={20}
-            color={newMessage.trim() ? '#FFFFFF' : '#8E8E93'}
+          postfix={<Send onPress={sendMessage} size={20} color={newMessage.trim() ? '#8E8E93' : '#8E8E93'}
           />}
         />
       </View>
@@ -254,5 +268,6 @@ export default function ChatScreen() {
         <ReactionPicker onReaction={handleReaction} onClose={closeActionSheet} />
       </ActionSheet> */}
     </View>
+    </KeyboardAvoidingView>
   );
 }

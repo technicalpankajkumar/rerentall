@@ -64,7 +64,7 @@ const buttonTextVariants = cva(
   }
 );
 
-type radiusTypes = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type radiusTypes = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 type ButtonProps = React.ComponentProps<typeof Pressable> &
   VariantProps<typeof buttonVariants> & {
     style?: ViewStyle;
@@ -94,6 +94,8 @@ function Button({
         return scale(10)
       case 'xl':
         return scale(12)
+      case 'full':
+         return scale(50)
       default:
         return scale(4)
     }
