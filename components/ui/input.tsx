@@ -1,3 +1,4 @@
+import { useResponsive } from '@/hooks/useResponsive';
 import { useColorScheme } from '@/lib/useColorScheme';
 import { cn } from 'lib/utils';
 import { Eye, EyeOff } from 'lucide-react-native';
@@ -10,7 +11,8 @@ import {
 } from 'react-native';
 import { Text } from './text';
 
-type InputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type InputSize = 'xs' | 'sm' | 'md' | 'lg';
+type RadiusSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' |'full'
 
 type CustomInputProps = TextInputProps & {
   size?: InputSize;
@@ -21,7 +23,7 @@ type CustomInputProps = TextInputProps & {
   className?: string;
   placeholderClassName?: string;
   label?: string;
-  radius?: InputSize,
+  radius?: RadiusSize,
   required?:boolean,
 };
 
@@ -42,13 +44,19 @@ export const Input = forwardRef<TextInput, CustomInputProps>(({
   const [isSecure, setIsSecure] = useState(secureTextEntry ?? false);
   const [isFocused, setIsFocused] = useState(false);
   const {isDarkColorScheme} = useColorScheme()
+  const {verticalScale,moderateScale} = useResponsive()
   const sizeStyles = {
-    xs: 'h-8 px-2 text-xs',
-    sm: 'h-10 px-3 text-sm',
-    md: 'h-12 px-4 text-base',
-    lg: 'h-14 px-4 text-lg',
-    xl: 'h-14 px-4 text-xl',
+    xs: {fontSize: moderateScale(12)-1},
+    sm: {fontSize: moderateScale(13)-1},
+    md: {fontSize: moderateScale(14)-1},
+    lg: {fontSize: moderateScale(16)-1},
   };
+  const boxStyles = {
+    xs:{height:verticalScale(40)},
+    sm:{height:verticalScale(42)},
+    md:{height:verticalScale(45)},
+    lg:{height:verticalScale(46)},
+  }
 
   const baseBorder = 'border';
   const borderColor = error
@@ -81,11 +89,11 @@ export const Input = forwardRef<TextInput, CustomInputProps>(({
         label && (<View className='flex-row gap-1 mx-0.5'>
           <Text
             className={cn('mb-1 text-gray-600 dark:text-gray-300')}
-            size={size}
+            style={sizeStyles[size]}
           >
             {label}
           </Text>
-          {required && <Text className='text-red-500' size={size}>
+          {required && <Text className='text-red-500' style={sizeStyles[size]}>
             *
           </Text>}
         </View>)
@@ -95,11 +103,11 @@ export const Input = forwardRef<TextInput, CustomInputProps>(({
           'flex-row items-center  bg-background',
           baseBorder,
           `rounded-${radius}`,
-          sizeStyles[size],
           borderColor,
           props.editable === false && 'opacity-50',
           className
         )}
+        style={[{paddingHorizontal: moderateScale(10)},boxStyles[size]]}
       >
         {prefix && <View className="mr-2">{prefix}</View>}
 
@@ -115,6 +123,7 @@ export const Input = forwardRef<TextInput, CustomInputProps>(({
             placeholderClassName,
 
           )}
+          style={[sizeStyles[size]]}
           {...props}
         />
 

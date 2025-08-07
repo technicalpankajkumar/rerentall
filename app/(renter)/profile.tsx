@@ -1,6 +1,7 @@
 import MainHeader from '@/components/partials/MainHeader';
 import { Text } from '@/components/ui/text';
 import { useResponsive } from '@/hooks/useResponsive';
+import { router } from 'expo-router';
 import {
     Bell,
     ChevronRight,
@@ -160,6 +161,7 @@ export default function SettingScreen() {
                                     style={{elevation:1}}
                                     className='bg-white dark:bg-black/50 rounded-3xl px-4 py-2'
                                     activeOpacity={0.8}
+                                    onPress={()=>router.push('/(common)/profile')}
                                 >
                                     <Text size='sm' className='font-semibold'>
                                         Start now
