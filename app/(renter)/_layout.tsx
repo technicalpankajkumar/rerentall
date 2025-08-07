@@ -51,9 +51,9 @@ const RentalLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="setting"
+        name="profile"
         options={{
-          title: "Setting",
+          title: "Profile",
           tabBarIcon: ({ color, size }) => (
             <CircleUserRound color={color} size={size} strokeWidth={1} />
           ),
