@@ -57,8 +57,9 @@ export default function SettingScreen() {
                             width: moderateScale(30),
                             height: moderateScale(30),
                             marginHorizontal: moderateScale(12),
+                            elevation:1
                         }}
-                        className='bg-secondary dark:bg-secondary-foreground items-center justify-center rounded-full'
+                        className='bg-secondary dark:bg-black/30  items-center justify-center rounded-full'
                     >
                         <IconComponent size={18} color="#374151" />
                     </View>
@@ -86,7 +87,7 @@ export default function SettingScreen() {
                 {title}
             </Text>
             <View
-                style={{ elevation: 1 }}
+                // style={{ elevation: 1 }}
                 className='bg-white/20'
             >
                 {items.map(renderSettingsItem)}
@@ -100,11 +101,8 @@ export default function SettingScreen() {
             <View className='px-4'>
                 <TouchableOpacity
                     activeOpacity={0.7}
-                    className='flex-row items-center rounded-2xl border-t border border-border dark:border-border'
-                    style={{
-                        paddingHorizontal: moderateScale(16),
-                        paddingVertical: moderateVerticalScale(6),
-                    }}
+                    className='flex-row bg-white dark:bg-black/50  items-center rounded-2xl border-t border border-border dark:border-border'
+                    style={{ paddingHorizontal: moderateScale(16), paddingVertical: moderateVerticalScale(6) }}
                 >
                     <Image
                         source={{
@@ -144,7 +142,7 @@ export default function SettingScreen() {
                     <View style={{ paddingHorizontal: moderateScale(16),marginTop:moderateVerticalScale(10) }}>
                         <View
                             style={{elevation:1}}
-                            className='bg-primary rounded-xl'
+                            className='bg-primary dark:bg-blue-600 rounded-xl'
                         >
                             <View className='flex-row items-center justify-center p-4'>
                                 <View style={{ flex: 1 }}>
@@ -160,7 +158,7 @@ export default function SettingScreen() {
                                 </View>
                                 <TouchableOpacity
                                     style={{elevation:1}}
-                                    className='bg-white rounded-3xl px-4 py-2'
+                                    className='bg-white dark:bg-black/50 rounded-3xl px-4 py-2'
                                     activeOpacity={0.8}
                                 >
                                     <Text size='sm' className='font-semibold'>
