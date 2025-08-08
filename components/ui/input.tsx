@@ -1,4 +1,5 @@
 import { useResponsive } from '@/hooks/useResponsive';
+import useStyles from '@/hooks/useStyles';
 import { useColorScheme } from '@/lib/useColorScheme';
 import { cn } from 'lib/utils';
 import { Eye, EyeOff } from 'lucide-react-native';
@@ -9,6 +10,7 @@ import {
   TextInputProps,
   View,
 } from 'react-native';
+import Label from '../custom-ui/Label';
 import { Text } from './text';
 
 type InputSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -44,21 +46,9 @@ export const Input = forwardRef<TextInput, CustomInputProps>(({
   const [isSecure, setIsSecure] = useState(secureTextEntry ?? false);
   const [isFocused, setIsFocused] = useState(false);
   const {isDarkColorScheme} = useColorScheme()
-  const {verticalScale,moderateScale} = useResponsive()
-  const sizeStyles = {
-    xs: {fontSize: moderateScale(12)-1},
-    sm: {fontSize: moderateScale(13)-1},
-    md: {fontSize: moderateScale(14)-1},
-    lg: {fontSize: moderateScale(16)-1},
-  };
-  const boxStyles = {
-    xs:{height:verticalScale(40)},
-    sm:{height:verticalScale(42)},
-    md:{height:verticalScale(45)},
-    lg:{height:verticalScale(46)},
-  }
+  const {moderateScale} = useResponsive()
+  const {fontSizeStyles,boxSizeStyles} = useStyles()
 
-  const baseBorder = 'border';
   const borderColor = error
     ? 'border-red-500'
     : isFocused
@@ -85,36 +75,23 @@ export const Input = forwardRef<TextInput, CustomInputProps>(({
       }
       )} </View>*/}
 
-      {
-        label && (<View className='flex-row gap-1 mx-0.5'>
-          <Text
-            className={cn('mb-1 text-gray-600 dark:text-gray-300')}
-            style={sizeStyles[size]}
-          >
-            {label}
-          </Text>
-          {required && <Text className='text-red-500' style={sizeStyles[size]}>
-            *
-          </Text>}
-        </View>)
-      }
+      <Label title={label} required={required} size={size}/>
       <View
         className={cn(
-          'flex-row items-center  bg-background',
-          baseBorder,
+          'flex-row items-center  bg-background border',
           `rounded-${radius}`,
           borderColor,
           props.editable === false && 'opacity-50',
           className
         )}
-        style={[{paddingHorizontal: moderateScale(10)},boxStyles[size]]}
+        style={[{paddingHorizontal: moderateScale(10)},boxSizeStyles[size]]}
       >
         {prefix && <View className="mr-2">{prefix}</View>}
 
         <TextInput
           ref={ref}
           secureTextEntry={isSecure}
-          placeholderTextColor="gray"
+          placeholderTextColor="#6b7280"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={cn(
@@ -123,7 +100,7 @@ export const Input = forwardRef<TextInput, CustomInputProps>(({
             placeholderClassName,
 
           )}
-          style={[sizeStyles[size]]}
+          style={[fontSizeStyles[size]]}
           {...props}
         />
 
